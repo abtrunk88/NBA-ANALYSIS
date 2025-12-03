@@ -1,18 +1,40 @@
 import { useQuery } from "@tanstack/react-query";
-import { nbaApi } from "@/services/nbaApi";
+import { nbaApi, Player } from "@/services/nbaApi";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Target, Zap, AlertTriangle } from "lucide-react";
+import { Target, Zap, AlertTriangle, Info } from "lucide-react";
 
 interface ShootingBattleCardProps {
   homeTeamCode: string;
   awayTeamCode: string;
+  homeMissingPlayers?: Player[];
+  awayMissingPlayers?: Player[];
 }
 
-export function ShootingBattleCard({ homeTeamCode, awayTeamCode }: ShootingBattleCardProps) {
+export function ShootingBattleCard({
+  homeTeamCode,
+  awayTeamCode,
+  homeMissingPlayers = [],
+  awayMissingPlayers = [],
+}: ShootingBattleCardProps) {
+  const homeMissingIds = homeMissingPlayers.map(p => p.id);
+  const awayMissingIds = awayMissingPlayers.map(p => p.id);
+
   const { data, isLoading } = useQuery({
-    queryKey: ["shooting-splits", homeTeamCode, awayTeamCode],
-    queryFn: () => nbaApi.getShootingSplits(homeTeamCode, awayTeamCode),
+    queryKey: [
+      "shooting-splits",
+      homeTeamCode,
+      awayTeamCode,
+      homeMissingIds.join(","),
+      awayMissingIds.join(","),
+    ],
+    queryFn: () =>
+      nbaApi.getShootingSplits(
+        homeTeamCode,
+        awayTeamCode,
+        homeMissingIds.length > 0 ? homeMissingIds : undefined,
+        awayMissingIds.length > 0 ? awayMissingIds : undefined
+      ),
     enabled: !!homeTeamCode && !!awayTeamCode,
   });
 
@@ -31,6 +53,7 @@ export function ShootingBattleCard({ homeTeamCode, awayTeamCode }: ShootingBattl
   if (!data) return null;
 
   const getProgress = (val: number) => Math.min(100, (val / 45) * 100);
+  const hasAbsences = homeMissingPlayers.length > 0 || awayMissingPlayers.length > 0;
 
   return (
     <Card className="mt-4 border-l-4 border-l-blue-500 bg-secondary/10">
@@ -137,6 +160,14 @@ export function ShootingBattleCard({ homeTeamCode, awayTeamCode }: ShootingBattl
           <div className="flex items-center gap-2 text-[10px] text-amber-600 bg-amber-50 p-2 rounded">
             <AlertTriangle className="h-3 w-3" />
             Attention : La fatigue détectée réduit les projections d'adresse.
+          </div>
+        )}
+
+        {/* Absences Indicator */}
+        {hasAbsences && (
+          <div className="flex items-center gap-2 text-[10px] text-blue-600 bg-blue-50 p-2 rounded">
+            <Info className="h-3 w-3 flex-shrink-0" />
+            ℹ️ Projections ajustées selon les absences sélectionnées.
           </div>
         )}
       </CardContent>

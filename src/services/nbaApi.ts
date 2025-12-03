@@ -526,10 +526,20 @@ export const nbaApi = {
 
   async getShootingSplits(
     homeTeamCode: string,
-    awayTeamCode: string
+    awayTeamCode: string,
+    homeAbsentIds?: number[],
+    awayAbsentIds?: number[]
   ): Promise<ShootingBattleData> {
+    const params = new URLSearchParams();
+    if (homeAbsentIds && homeAbsentIds.length > 0) {
+      homeAbsentIds.forEach(id => params.append("home_absent", id.toString()));
+    }
+    if (awayAbsentIds && awayAbsentIds.length > 0) {
+      awayAbsentIds.forEach(id => params.append("away_absent", id.toString()));
+    }
+    const queryString = params.toString() ? `?${params.toString()}` : "";
     const response = await fetch(
-      `${API_BASE_URL}/predict/shooting-splits/${homeTeamCode}/${awayTeamCode}`
+      `${API_BASE_URL}/predict/shooting-splits/${homeTeamCode}/${awayTeamCode}${queryString}`
     );
     if (!response.ok) throw new Error("Failed to fetch shooting splits");
     return response.json();
