@@ -346,14 +346,12 @@ export function MatchPredictionModal({
               </div>
             )}
 
-            {/* SECTION 5B: SHOOTING BATTLE - Uncomment when shooting prediction API is available */}
-            {/*
+            {/* SECTION 5B: SHOOTING BATTLE */}
             {shootingPrediction && (
               <div className="border-t pt-4">
                 <ShootingBattleCard data={shootingPrediction} />
               </div>
             )}
-            */}
 
             {/* SECTION 2: CONTEXTE & FATIGUE */}
             {prediction.context_analysis && (
