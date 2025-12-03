@@ -1,159 +1,142 @@
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { useQuery } from "@tanstack/react-query";
+import { nbaApi } from "@/services/nbaApi";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { AlertTriangle, Zap } from "lucide-react";
-import { ShootingPrediction } from "@/services/nbaApi";
+import { Target, Zap, AlertTriangle } from "lucide-react";
 
 interface ShootingBattleCardProps {
-  data: ShootingPrediction;
+  homeTeamCode: string;
+  awayTeamCode: string;
 }
 
-export function ShootingBattleCard({ data }: ShootingBattleCardProps) {
-  const homeTeam = data.home;
-  const awayTeam = data.away;
-  const analysis = data.analysis;
+export function ShootingBattleCard({ homeTeamCode, awayTeamCode }: ShootingBattleCardProps) {
+  const { data, isLoading } = useQuery({
+    queryKey: ["shooting-splits", homeTeamCode, awayTeamCode],
+    queryFn: () => nbaApi.getShootingSplits(homeTeamCode, awayTeamCode),
+    enabled: !!homeTeamCode && !!awayTeamCode,
+  });
 
-  // Calculate max values for progress bar scaling
-  const max2PT = Math.max(homeTeam.FG2M, awayTeam.FG2M);
-  const max3PT = Math.max(homeTeam.FG3M, awayTeam.FG3M);
+  if (isLoading) {
+    return (
+      <Card className="border shadow-sm">
+        <CardContent className="p-4">
+          <div className="p-4 text-center text-xs text-muted-foreground animate-pulse">
+            Analyse des tirs...
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
 
-  const home2PTPercentage = (homeTeam.FG2M / max2PT) * 100;
-  const away2PTPercentage = (awayTeam.FG2M / max2PT) * 100;
-  const home3PTPercentage = (homeTeam.FG3M / max3PT) * 100;
-  const away3PTPercentage = (awayTeam.FG3M / max3PT) * 100;
+  if (!data) return null;
 
-  const is2PTHomeWinner = analysis["2pt_winner"] === homeTeam.team;
-  const is3PTHomeWinner = analysis["3pt_winner"] === homeTeam.team;
+  const getProgress = (val: number) => Math.min(100, (val / 45) * 100);
 
   return (
-    <Card className="border shadow-sm">
-      <CardContent className="p-4">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-6">
-          <h3 className="text-lg font-bold">Duel de Styles</h3>
-          <Badge variant="secondary" className="text-xs bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200">
-            <Zap className="h-3 w-3 mr-1" />
+    <Card className="mt-4 border-l-4 border-l-blue-500 bg-secondary/10">
+      <CardHeader className="pb-2 pt-4 px-4">
+        <div className="flex justify-between items-center">
+          <CardTitle className="text-sm font-bold flex items-center gap-2">
+            <Target className="h-4 w-4 text-blue-500" />
+            DUEL DE STYLES
+          </CardTitle>
+          <span className="text-[10px] bg-background px-2 py-1 rounded border shadow-sm flex items-center gap-1">
+            <Zap className="h-3 w-3 text-yellow-500" />
             {data.pace_context}
-          </Badge>
+          </span>
+        </div>
+      </CardHeader>
+
+      <CardContent className="px-4 pb-4 space-y-6">
+        {/* BATAILLE 2 POINTS */}
+        <div>
+          <div className="flex justify-between mb-2">
+            <span className="text-xs font-semibold text-muted-foreground">
+              PANIERS À 2 POINTS (Intérieur)
+            </span>
+            {data.analysis["2pt_winner"] === data.home.team ? (
+              <span className="text-xs font-bold text-green-600">
+                Avantage {data.home.team}
+              </span>
+            ) : (
+              <span className="text-xs font-bold text-green-600">
+                Avantage {data.away.team}
+              </span>
+            )}
+          </div>
+
+          {/* Home 2PT */}
+          <div className="flex items-center gap-2 mb-1">
+            <span className="w-8 text-xs font-bold">{data.home.team}</span>
+            <Progress value={getProgress(data.home.FG2M)} className="h-2 flex-1" />
+            <span className="w-12 text-xs font-bold text-right">{data.home.FG2M}</span>
+            <span className="w-16 text-[10px] text-muted-foreground text-right">
+              ({data.home.FG2M_Range})
+            </span>
+          </div>
+
+          {/* Away 2PT */}
+          <div className="flex items-center gap-2">
+            <span className="w-8 text-xs font-bold">{data.away.team}</span>
+            <Progress value={getProgress(data.away.FG2M)} className="h-2 flex-1" />
+            <span className="w-12 text-xs font-bold text-right">{data.away.FG2M}</span>
+            <span className="w-16 text-[10px] text-muted-foreground text-right">
+              ({data.away.FG2M_Range})
+            </span>
+          </div>
         </div>
 
-        {/* Section 1: 2-Point Battle */}
-        <div className="space-y-4 mb-6 pb-6 border-b">
-          <h4 className="text-sm font-semibold text-muted-foreground uppercase">
-            Paniers à 2 Points (FGM)
-          </h4>
+        {/* BATAILLE 3 POINTS */}
+        <div>
+          <div className="flex justify-between mb-2">
+            <span className="text-xs font-semibold text-muted-foreground">
+              PANIERS À 3 POINTS (Extérieur)
+            </span>
+            {data.analysis["3pt_winner"] === data.home.team ? (
+              <span className="text-xs font-bold text-blue-600">
+                Avantage {data.home.team}
+              </span>
+            ) : (
+              <span className="text-xs font-bold text-blue-600">
+                Avantage {data.away.team}
+              </span>
+            )}
+          </div>
 
-          {/* Home Team 2PT */}
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <span className="text-sm font-medium">{homeTeam.team}</span>
-                {is2PTHomeWinner && <span className="text-lg">🏆</span>}
-              </div>
-              <div className="text-right">
-                <span className="text-sm font-bold">{homeTeam.FG2M}</span>
-                <span className="text-xs text-muted-foreground ml-2">({homeTeam.FG2M_Range})</span>
-              </div>
-            </div>
+          {/* Home 3PT */}
+          <div className="flex items-center gap-2 mb-1">
+            <span className="w-8 text-xs font-bold">{data.home.team}</span>
             <Progress
-              value={home2PTPercentage}
-              className="h-3"
-              style={{
-                backgroundColor: "hsl(var(--muted))",
-              }}
+              value={getProgress(data.home.FG3M)}
+              className="h-2 flex-1 bg-blue-100"
+              indicatorClassName="bg-blue-500"
             />
-            {/* Custom styled progress bar for home team 2pt */}
-            <div className="relative h-3 w-full bg-muted rounded-full overflow-hidden">
-              <div
-                className={`h-full transition-all duration-300 ${
-                  is2PTHomeWinner ? "bg-green-500" : "bg-gray-400"
-                }`}
-                style={{ width: `${home2PTPercentage}%` }}
-              />
-            </div>
+            <span className="w-12 text-xs font-bold text-right">{data.home.FG3M}</span>
+            <span className="w-16 text-[10px] text-muted-foreground text-right">
+              ({data.home.FG3M_Range})
+            </span>
           </div>
 
-          {/* Away Team 2PT */}
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <span className="text-sm font-medium">{awayTeam.team}</span>
-                {!is2PTHomeWinner && <span className="text-lg">🏆</span>}
-              </div>
-              <div className="text-right">
-                <span className="text-sm font-bold">{awayTeam.FG2M}</span>
-                <span className="text-xs text-muted-foreground ml-2">({awayTeam.FG2M_Range})</span>
-              </div>
-            </div>
-            <div className="relative h-3 w-full bg-muted rounded-full overflow-hidden">
-              <div
-                className={`h-full transition-all duration-300 ${
-                  !is2PTHomeWinner ? "bg-green-500" : "bg-gray-400"
-                }`}
-                style={{ width: `${away2PTPercentage}%` }}
-              />
-            </div>
+          {/* Away 3PT */}
+          <div className="flex items-center gap-2">
+            <span className="w-8 text-xs font-bold">{data.away.team}</span>
+            <Progress
+              value={getProgress(data.away.FG3M)}
+              className="h-2 flex-1 bg-blue-100"
+              indicatorClassName="bg-blue-500"
+            />
+            <span className="w-12 text-xs font-bold text-right">{data.away.FG3M}</span>
+            <span className="w-16 text-[10px] text-muted-foreground text-right">
+              ({data.away.FG3M_Range})
+            </span>
           </div>
         </div>
 
-        {/* Section 2: 3-Point Battle */}
-        <div className="space-y-4 mb-6 pb-6 border-b">
-          <h4 className="text-sm font-semibold text-muted-foreground uppercase">
-            Paniers à 3 Points (FGM)
-          </h4>
-
-          {/* Home Team 3PT */}
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <span className="text-sm font-medium">{homeTeam.team}</span>
-                {is3PTHomeWinner && <span className="text-lg">🏆</span>}
-              </div>
-              <div className="text-right">
-                <span className="text-sm font-bold">{homeTeam.FG3M}</span>
-                <span className="text-xs text-muted-foreground ml-2">({homeTeam.FG3M_Range})</span>
-              </div>
-            </div>
-            <div className="relative h-3 w-full bg-muted rounded-full overflow-hidden">
-              <div
-                className={`h-full transition-all duration-300 ${
-                  is3PTHomeWinner ? "bg-blue-500" : "bg-gray-400"
-                }`}
-                style={{ width: `${home3PTPercentage}%` }}
-              />
-            </div>
-          </div>
-
-          {/* Away Team 3PT */}
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <span className="text-sm font-medium">{awayTeam.team}</span>
-                {!is3PTHomeWinner && <span className="text-lg">🏆</span>}
-              </div>
-              <div className="text-right">
-                <span className="text-sm font-bold">{awayTeam.FG3M}</span>
-                <span className="text-xs text-muted-foreground ml-2">({awayTeam.FG3M_Range})</span>
-              </div>
-            </div>
-            <div className="relative h-3 w-full bg-muted rounded-full overflow-hidden">
-              <div
-                className={`h-full transition-all duration-300 ${
-                  !is3PTHomeWinner ? "bg-blue-500" : "bg-gray-400"
-                }`}
-                style={{ width: `${away3PTPercentage}%` }}
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* Fatigue Impact Alert */}
-        {analysis.fatigue_impact === "Oui" && (
-          <div className="flex items-start gap-2 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-700 rounded p-3">
-            <AlertTriangle className="h-4 w-4 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" />
-            <p className="text-xs text-amber-700 dark:text-amber-300">
-              ⚠️ La fatigue réduit l'adresse extérieure estimée.
-            </p>
+        {/* Alerte Fatigue */}
+        {data.analysis.fatigue_impact === "Oui" && (
+          <div className="flex items-center gap-2 text-[10px] text-amber-600 bg-amber-50 p-2 rounded">
+            <AlertTriangle className="h-3 w-3" />
+            Attention : La fatigue détectée réduit les projections d'adresse.
           </div>
         )}
       </CardContent>
