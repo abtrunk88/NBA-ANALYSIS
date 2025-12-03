@@ -97,8 +97,24 @@ export function PlayerDetailsModal({
     return historyData?.h2h_avg || null;
   }, [historyData]);
 
-  const getRecommendationColor = (recommendation: string): string => {
-    const upper = recommendation.toUpperCase();
+  const getRecommendationColor = (advice: string | undefined, colorCode: string | undefined): string => {
+    if (colorCode) {
+      switch (colorCode.toLowerCase()) {
+        case "green":
+          return "bg-emerald-500/20 border-emerald-500/30 text-emerald-600";
+        case "red":
+          return "bg-red-500/20 border-red-500/30 text-red-600";
+        case "amber":
+        case "yellow":
+          return "bg-amber-500/20 border-amber-500/30 text-amber-600";
+        default:
+          return "bg-muted border-border text-foreground";
+      }
+    }
+
+    if (!advice) return "bg-muted border-border text-foreground";
+
+    const upper = advice.toUpperCase();
     if (upper.includes("OVER")) return "bg-emerald-500/20 border-emerald-500/30 text-emerald-600";
     if (upper.includes("UNDER")) return "bg-red-500/20 border-red-500/30 text-red-600";
     return "bg-amber-500/20 border-amber-500/30 text-amber-600";
@@ -319,14 +335,14 @@ export function PlayerDetailsModal({
 
               {calculatorOpen && calculatorResult && (
                 <div className="space-y-4 mt-4 pt-4 border-t animate-in fade-in slide-in-from-top-2">
-                  <Card className={getRecommendationColor(calculatorResult.recommendation)}>
+                  <Card className={getRecommendationColor(calculatorResult.advice, calculatorResult.color_code)}>
                     <CardContent className="pt-6">
                       <div className="flex justify-between items-center mb-2">
-                        <span className="text-sm font-bold uppercase">{calculatorResult.recommendation}</span>
-                        <span className="text-2xl font-bold">{(calculatorResult.probability * 100).toFixed(0)}%</span>
+                        <span className="text-sm font-bold">{calculatorResult.advice}</span>
+                        <span className="text-2xl font-bold">{(calculatorResult.probability_over).toFixed(0)}%</span>
                       </div>
-                      <Progress value={calculatorResult.probability * 100} className="h-2 bg-black/10" />
-                      <p className="text-xs text-center mt-2 opacity-80">Indice de Confiance: {calculatorResult.confidence}</p>
+                      <Progress value={calculatorResult.probability_over} className="h-2 bg-black/10" />
+                      <p className="text-xs text-center mt-2 opacity-80">Probabilité OVER: {calculatorResult.probability_over.toFixed(1)}% | UNDER: {calculatorResult.probability_under.toFixed(1)}%</p>
                     </CardContent>
                   </Card>
                 </div>
