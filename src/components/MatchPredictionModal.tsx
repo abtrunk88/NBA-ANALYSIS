@@ -611,29 +611,16 @@ export function MatchPredictionModal({
                     JOUEURS - {game?.homeTeam}
                   </label>
                   <div className="grid grid-cols-2 gap-2">
-                    {homeRoster.slice(0, 14).map((player) => {
-                      const isSelected = homeMissingPlayers.some((p) => p.id === player.id);
-                      return (
-                        <Button
-                          key={player.id}
-                          onClick={() => {
-                            if (isSelected) {
-                              removeHomeMissingPlayer(player.id);
-                            } else {
-                              addHomeMissingPlayer(player);
-                            }
-                          }}
-                          className={`h-9 text-xs truncate ${
-                            isSelected
-                              ? "bg-orange-500 hover:bg-orange-600 text-white"
-                              : "bg-secondary hover:bg-secondary/80 text-foreground"
-                          }`}
-                          variant="outline"
-                        >
-                          {player.full_name}
-                        </Button>
-                      );
-                    })}
+                    {homeRoster.slice(0, 14).filter((player) => !homeMissingPlayers.some((p) => p.id === player.id)).map((player) => (
+                      <Button
+                        key={player.id}
+                        onClick={() => addHomeMissingPlayer(player)}
+                        className="h-9 text-xs truncate bg-secondary hover:bg-secondary/80 text-foreground"
+                        variant="outline"
+                      >
+                        {player.full_name}
+                      </Button>
+                    ))}
                   </div>
                 </div>
 
@@ -643,29 +630,16 @@ export function MatchPredictionModal({
                     JOUEURS - {game?.awayTeam}
                   </label>
                   <div className="grid grid-cols-2 gap-2">
-                    {awayRoster.slice(0, 14).map((player) => {
-                      const isSelected = awayMissingPlayers.some((p) => p.id === player.id);
-                      return (
-                        <Button
-                          key={player.id}
-                          onClick={() => {
-                            if (isSelected) {
-                              removeAwayMissingPlayer(player.id);
-                            } else {
-                              addAwayMissingPlayer(player);
-                            }
-                          }}
-                          className={`h-9 text-xs truncate ${
-                            isSelected
-                              ? "bg-orange-500 hover:bg-orange-600 text-white"
-                              : "bg-secondary hover:bg-secondary/80 text-foreground"
-                          }`}
-                          variant="outline"
-                        >
-                          {player.full_name}
-                        </Button>
-                      );
-                    })}
+                    {awayRoster.slice(0, 14).filter((player) => !awayMissingPlayers.some((p) => p.id === player.id)).map((player) => (
+                      <Button
+                        key={player.id}
+                        onClick={() => addAwayMissingPlayer(player)}
+                        className="h-9 text-xs truncate bg-secondary hover:bg-secondary/80 text-foreground"
+                        variant="outline"
+                      >
+                        {player.full_name}
+                      </Button>
+                    ))}
                   </div>
                 </div>
               </div>
