@@ -183,6 +183,62 @@ export function PlayerDetailsModal({
             </CardContent>
           </Card>
 
+          {/* Analyse Contextuelle Section */}
+          {(historyData?.fatigue || player.matchup_analysis?.description) && (
+            <div className="space-y-3 border-t pt-4">
+              <h3 className="text-sm font-semibold text-muted-foreground flex items-center gap-2">
+                <Trophy className="h-4 w-4" />
+                Analyse Contextuelle
+              </h3>
+
+              <div className="flex flex-wrap items-center gap-2">
+                {/* Fatigue Badge */}
+                {historyData?.fatigue && (
+                  <div className="flex items-center gap-2">
+                    <Badge
+                      variant={
+                        historyData.fatigue.color_code === "green"
+                          ? "default"
+                          : historyData.fatigue.color_code === "red"
+                            ? "destructive"
+                            : "secondary"
+                      }
+                      className={
+                        historyData.fatigue.color_code === "green"
+                          ? "bg-emerald-500/20 border-emerald-500/30 text-emerald-700 hover:bg-emerald-500/30"
+                          : historyData.fatigue.color_code === "red"
+                            ? "bg-red-500/20 border-red-500/30 text-red-700 hover:bg-red-500/30"
+                            : "bg-gray-500/20 border-gray-500/30 text-gray-700 hover:bg-gray-500/30"
+                      }
+                    >
+                      {historyData.fatigue.status}
+                    </Badge>
+                    <span className="text-xs text-muted-foreground font-medium">
+                      {historyData.fatigue.last_min.toFixed(0)} min
+                      {historyData.fatigue.days_rest > 0 ? ` (${historyData.fatigue.days_rest} day${historyData.fatigue.days_rest !== 1 ? 's' : ''} rest)` : " (back-to-back)"}
+                    </span>
+                  </div>
+                )}
+
+                {/* Matchup Badge */}
+                {player.matchup_analysis?.description && (
+                  <Badge
+                    variant="outline"
+                    className={
+                      player.matchup_analysis.description.startsWith("🔴")
+                        ? "bg-red-500/20 border-red-500/30 text-red-700 hover:bg-red-500/30"
+                        : player.matchup_analysis.description.startsWith("🟢")
+                          ? "bg-emerald-500/20 border-emerald-500/30 text-emerald-700 hover:bg-emerald-500/30"
+                          : "bg-amber-500/20 border-amber-500/30 text-amber-700 hover:bg-amber-500/30"
+                    }
+                  >
+                    {player.matchup_analysis.description}
+                  </Badge>
+                )}
+              </div>
+            </div>
+          )}
+
           {/* PRO CONTEXT: Fatigue & Matchup */}
           {historyData?.fatigue || historyData?.matchup_context || historyData?.splits ? (
             <div className="space-y-4 border-t pt-4">
