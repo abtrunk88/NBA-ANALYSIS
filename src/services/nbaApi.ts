@@ -523,4 +523,15 @@ export const nbaApi = {
     if (!response.ok) throw new Error("Failed to fetch shooting prediction");
     return response.json();
   },
+
+  async getShootingSplits(
+    homeTeamCode: string,
+    awayTeamCode: string
+  ): Promise<ShootingBattleData> {
+    const response = await fetch(
+      `${API_BASE_URL}/predict/shooting-splits/${homeTeamCode}/${awayTeamCode}`
+    );
+    if (!response.ok) throw new Error("Failed to fetch shooting splits");
+    return response.json();
+  },
 };
