@@ -610,12 +610,12 @@ export function MatchPredictionModal({
                   <label className="text-xs font-semibold text-muted-foreground block mb-3">
                     JOUEURS - {game?.homeTeam}
                   </label>
-                  <div className="grid grid-cols-2 gap-2">
+                  <div className="grid grid-cols-5 lg:grid-cols-7 gap-1">
                     {homeRoster.slice(0, 14).filter((player) => !homeMissingPlayers.some((p) => p.id === player.id)).map((player) => (
                       <Button
                         key={player.id}
                         onClick={() => addHomeMissingPlayer(player)}
-                        className="h-9 text-xs truncate bg-secondary hover:bg-secondary/80 text-foreground"
+                        className="h-6 text-[10px] truncate bg-secondary hover:bg-secondary/80 text-foreground px-1"
                         variant="outline"
                       >
                         {player.full_name}
@@ -629,12 +629,12 @@ export function MatchPredictionModal({
                   <label className="text-xs font-semibold text-muted-foreground block mb-3">
                     JOUEURS - {game?.awayTeam}
                   </label>
-                  <div className="grid grid-cols-2 gap-2">
+                  <div className="grid grid-cols-5 lg:grid-cols-7 gap-1">
                     {awayRoster.slice(0, 14).filter((player) => !awayMissingPlayers.some((p) => p.id === player.id)).map((player) => (
                       <Button
                         key={player.id}
                         onClick={() => addAwayMissingPlayer(player)}
-                        className="h-9 text-xs truncate bg-secondary hover:bg-secondary/80 text-foreground"
+                        className="h-6 text-[10px] truncate bg-secondary hover:bg-secondary/80 text-foreground px-1"
                         variant="outline"
                       >
                         {player.full_name}
