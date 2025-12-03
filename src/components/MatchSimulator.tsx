@@ -276,6 +276,7 @@ export function MatchSimulator({
             player={selectedPlayer}
             opponentTeamName={modalTeam === "home" ? awayTeamName : homeTeamName}
             opponentTeamId={modalTeam === "home" ? awayTeamId : homeTeamId}
+            homeTeamName={homeTeamName}
           />
         )}
 

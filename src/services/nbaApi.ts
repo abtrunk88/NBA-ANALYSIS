@@ -257,9 +257,14 @@ export interface PlayerDetailsHistory {
   recent_form_avg: RecentFormAvg;
   h2h_avg: H2HAvg;
   season_trend?: SeasonTrend;
-  
+
+  // Nouvelles données Pro Context
+  splits?: Splits;
+  fatigue?: Fatigue;
+  matchup_context?: string;
+
   // On garde ces champs optionnels au cas où vous utiliseriez encore l'ancienne version quelque part
-  recent_form?: any[]; 
+  recent_form?: any[];
   h2h_history?: any[];
 }
 
@@ -267,6 +272,25 @@ export interface PlayerPopupData {
   recent_form_avg: RecentFormAvg;
   h2h_avg: H2HAvg;
   season_trend: SeasonTrend;
+}
+
+export interface StatLine {
+  PTS?: number;
+  REB?: number;
+  AST?: number;
+  GP?: number;
+}
+
+export interface Splits {
+  home: StatLine | null;
+  away: StatLine | null;
+}
+
+export interface Fatigue {
+  last_min: number;
+  days_rest: number;
+  status: string;
+  color_code: "green" | "red" | "gray";
 }
 
 export interface CalculatorResult {
