@@ -611,7 +611,7 @@ export function MatchPredictionModal({
                     JOUEURS - {game?.homeTeam}
                   </label>
                   <div className="grid grid-cols-2 gap-2">
-                    {homeRoster.slice(0, 8).map((player) => {
+                    {homeRoster.slice(0, 14).map((player) => {
                       const isSelected = homeMissingPlayers.some((p) => p.id === player.id);
                       return (
                         <Button
@@ -643,7 +643,7 @@ export function MatchPredictionModal({
                     JOUEURS - {game?.awayTeam}
                   </label>
                   <div className="grid grid-cols-2 gap-2">
-                    {awayRoster.slice(0, 8).map((player) => {
+                    {awayRoster.slice(0, 14).map((player) => {
                       const isSelected = awayMissingPlayers.some((p) => p.id === player.id);
                       return (
                         <Button
