@@ -34,8 +34,8 @@ export function MatchSimulator({
   homeTeamName,
   awayTeamName,
 }: MatchSimulatorProps) {
-  const [homeAbsentIndices, setHomeAbsentIndices] = useState<number[]>([]);
-  const [awayAbsentIndices, setAwayAbsentIndices] = useState<number[]>([]);
+  const [homeAbsentPlayerIds, setHomeAbsentPlayerIds] = useState<number[]>([]);
+  const [awayAbsentPlayerIds, setAwayAbsentPlayerIds] = useState<number[]>([]);
   const [selectedPlayer, setSelectedPlayer] = useState<PlayerFullPrediction | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalTeam, setModalTeam] = useState<"home" | "away">("home");
@@ -47,18 +47,9 @@ export function MatchSimulator({
       nbaApi.getFullMatchPredictionWithAbsents(homeTeamId, awayTeamId),
   });
 
-  // Build list of player IDs from current state and initial data
-  const homeAbsentIds = useMemo(() => {
-    return homeAbsentIndices
-      .map((idx) => initialPrediction?.home_players[idx]?.player_id)
-      .filter((id) => id !== undefined) as number[];
-  }, [homeAbsentIndices, initialPrediction]);
-
-  const awayAbsentIds = useMemo(() => {
-    return awayAbsentIndices
-      .map((idx) => initialPrediction?.away_players[idx]?.player_id)
-      .filter((id) => id !== undefined) as number[];
-  }, [awayAbsentIndices, initialPrediction]);
+  // Use player IDs directly (no index mapping needed)
+  const homeAbsentIds = homeAbsentPlayerIds;
+  const awayAbsentIds = awayAbsentPlayerIds;
 
   // Fetch with absent players (triggers immediately when absent IDs change)
   const { data: prediction, isLoading: predictionLoading, isFetching: isPredictionFetching } = useQuery({
@@ -93,22 +84,22 @@ export function MatchSimulator({
   const isLoading = initialLoading;
 
   const toggleHomePlayerAbsent = useCallback(
-    (playerIndex: number) => {
-      setHomeAbsentIndices((prev) =>
-        prev.includes(playerIndex)
-          ? prev.filter((idx) => idx !== playerIndex)
-          : [...prev, playerIndex]
+    (playerId: number) => {
+      setHomeAbsentPlayerIds((prev) =>
+        prev.includes(playerId)
+          ? prev.filter((id) => id !== playerId)
+          : [...prev, playerId]
       );
     },
     []
   );
 
   const toggleAwayPlayerAbsent = useCallback(
-    (playerIndex: number) => {
-      setAwayAbsentIndices((prev) =>
-        prev.includes(playerIndex)
-          ? prev.filter((idx) => idx !== playerIndex)
-          : [...prev, playerIndex]
+    (playerId: number) => {
+      setAwayAbsentPlayerIds((prev) =>
+        prev.includes(playerId)
+          ? prev.filter((id) => id !== playerId)
+          : [...prev, playerId]
       );
     },
     []
@@ -315,17 +306,17 @@ export function MatchSimulator({
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {displayPrediction.home_players.map((player, idx) => {
-                      const isAbsent = homeAbsentIndices.includes(idx);
+                    {displayPrediction.home_players.map((player) => {
+                      const isAbsent = homeAbsentPlayerIds.includes(player.player_id);
                       return (
                         <TableRow
-                          key={`home-${idx}`}
+                          key={`home-${player.player_id}`}
                           className={`transition-colors`}
                         >
                           <TableCell className="w-10">
                             <Checkbox
                               checked={isAbsent}
-                              onCheckedChange={() => toggleHomePlayerAbsent(idx)}
+                              onCheckedChange={() => toggleHomePlayerAbsent(player.player_id)}
                               disabled={isLoading}
                             />
                           </TableCell>
@@ -416,17 +407,17 @@ export function MatchSimulator({
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {displayPrediction.away_players.map((player, idx) => {
-                      const isAbsent = awayAbsentIndices.includes(idx);
+                    {displayPrediction.away_players.map((player) => {
+                      const isAbsent = awayAbsentPlayerIds.includes(player.player_id);
                       return (
                         <TableRow
-                          key={`away-${idx}`}
+                          key={`away-${player.player_id}`}
                           className={`transition-colors`}
                         >
                           <TableCell className="w-10">
                             <Checkbox
                               checked={isAbsent}
-                              onCheckedChange={() => toggleAwayPlayerAbsent(idx)}
+                              onCheckedChange={() => toggleAwayPlayerAbsent(player.player_id)}
                               disabled={isLoading}
                             />
                           </TableCell>
