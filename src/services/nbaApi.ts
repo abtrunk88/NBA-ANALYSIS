@@ -273,13 +273,14 @@ export interface CalculatorResult {
   stat: string;
   line: number;
   projection: number;
+  std_dev_calculated: number;
   probability_over: number;
   probability_under: number;
   advice: string;
   color_code: string;
+  confidence: string;
   probability?: number;
   recommendation?: string;
-  confidence?: string;
 }
 
 export const nbaApi = {
@@ -416,12 +417,13 @@ export const nbaApi = {
   },
 
   async getCalculatorAnalysis(
+    playerId: number,
     projection: number,
     line: number,
     statCategory: string
   ): Promise<CalculatorResult> {
     const response = await fetch(
-      `${API_BASE_URL}/predict/calculator?projection=${projection}&line=${line}&stat_category=${statCategory}`
+      `${API_BASE_URL}/predict/calculator?player_id=${playerId}&projection=${projection}&line=${line}&stat_category=${statCategory}`
     );
     if (!response.ok) throw new Error("Failed to fetch calculator analysis");
     return response.json();

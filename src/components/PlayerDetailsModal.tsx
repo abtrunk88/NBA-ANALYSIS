@@ -70,6 +70,7 @@ export function PlayerDetailsModal({
     ],
     queryFn: () =>
       nbaApi.getCalculatorAnalysis(
+        player.player_id,
         projection,
         parseFloat(bookmakerLine),
         selectedStat
@@ -343,6 +344,11 @@ export function PlayerDetailsModal({
                       </div>
                       <Progress value={calculatorResult.probability_over} className="h-2 bg-black/10" />
                       <p className="text-xs text-center mt-2 opacity-80">Probabilité OVER: {calculatorResult.probability_over.toFixed(1)}% | UNDER: {calculatorResult.probability_under.toFixed(1)}%</p>
+                      {calculatorResult.confidence && (
+                        <p className="text-xs text-center mt-3 opacity-75 italic font-medium">
+                          {calculatorResult.confidence}
+                        </p>
+                      )}
                     </CardContent>
                   </Card>
                 </div>
