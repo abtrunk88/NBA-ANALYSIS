@@ -177,9 +177,14 @@ export interface PlayerFullPrediction {
   player: string;
   position?: string;
   player_id: number;
+  team: string;
   predicted_stats: PlayerPredictedStats;
   advanced_metrics_projected: AdvancedMetricsProjected;
-  matchup_analysis?: MatchupAnalysis;
+  matchup_analysis?: {
+    defensive_rating?: number;
+    rank?: number;
+    description?: string;
+  };
   context?: PlayerContext;
   blowout_analysis: BlowoutAnalysis;
 }
@@ -265,9 +270,16 @@ export interface PlayerPopupData {
 }
 
 export interface CalculatorResult {
-  probability: number;
-  recommendation: string;
-  confidence: string;
+  stat: string;
+  line: number;
+  projection: number;
+  probability_over: number;
+  probability_under: number;
+  advice: string;
+  color_code: string;
+  probability?: number;
+  recommendation?: string;
+  confidence?: string;
 }
 
 export const nbaApi = {
