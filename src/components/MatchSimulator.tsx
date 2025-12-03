@@ -320,7 +320,7 @@ export function MatchSimulator({
                       return (
                         <TableRow
                           key={`home-${idx}`}
-                          className={`transition-colors ${isAbsent ? "bg-muted/50 opacity-60" : ""}`}
+                          className={`transition-colors`}
                         >
                           <TableCell className="w-10">
                             <Checkbox
@@ -330,7 +330,11 @@ export function MatchSimulator({
                             />
                           </TableCell>
                           <TableCell
-                            className="font-medium text-xs truncate cursor-pointer hover:text-primary hover:underline transition-colors"
+                            className={`font-medium text-xs truncate cursor-pointer transition-colors ${
+                              isAbsent
+                                ? "text-muted-foreground line-through"
+                                : "hover:text-primary hover:underline"
+                            }`}
                             onClick={() => handlePlayerClick(player, "home")}
                           >
                             <div className="flex items-center gap-1">
@@ -339,7 +343,7 @@ export function MatchSimulator({
                               )}
                               <span>{player.player}</span>
                               {player.position && (
-                                <span className="text-xs text-muted-foreground ml-1">
+                                <span className={`text-xs ml-1 ${isAbsent ? "text-muted-foreground line-through" : "text-muted-foreground"}`}>
                                   ({player.position})
                                 </span>
                               )}
@@ -417,7 +421,7 @@ export function MatchSimulator({
                       return (
                         <TableRow
                           key={`away-${idx}`}
-                          className={`transition-colors ${isAbsent ? "bg-muted/50 opacity-60" : ""}`}
+                          className={`transition-colors`}
                         >
                           <TableCell className="w-10">
                             <Checkbox
@@ -427,7 +431,11 @@ export function MatchSimulator({
                             />
                           </TableCell>
                           <TableCell
-                            className="font-medium text-xs truncate cursor-pointer hover:text-primary hover:underline transition-colors"
+                            className={`font-medium text-xs truncate cursor-pointer transition-colors ${
+                              isAbsent
+                                ? "text-muted-foreground line-through"
+                                : "hover:text-primary hover:underline"
+                            }`}
                             onClick={() => handlePlayerClick(player, "away")}
                           >
                             <div className="flex items-center gap-1">
@@ -436,7 +444,7 @@ export function MatchSimulator({
                               )}
                               <span>{player.player}</span>
                               {player.position && (
-                                <span className="text-xs text-muted-foreground ml-1">
+                                <span className={`text-xs ml-1 ${isAbsent ? "text-muted-foreground line-through" : "text-muted-foreground"}`}>
                                   ({player.position})
                                 </span>
                               )}
