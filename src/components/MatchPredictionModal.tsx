@@ -602,6 +602,73 @@ export function MatchPredictionModal({
                   </div>
                 )}
               </div>
+
+              {/* SECTION 7: SÉLECTION RAPIDE DES JOUEURS PAR BOUTONS */}
+              <div className="space-y-4 border-t pt-4">
+                {/* Home Team Players */}
+                <div>
+                  <label className="text-xs font-semibold text-muted-foreground block mb-3">
+                    JOUEURS - {game?.homeTeam}
+                  </label>
+                  <div className="grid grid-cols-2 gap-2">
+                    {homeRoster.slice(0, 8).map((player) => {
+                      const isSelected = homeMissingPlayers.some((p) => p.id === player.id);
+                      return (
+                        <Button
+                          key={player.id}
+                          onClick={() => {
+                            if (isSelected) {
+                              removeHomeMissingPlayer(player.id);
+                            } else {
+                              addHomeMissingPlayer(player);
+                            }
+                          }}
+                          className={`h-9 text-xs truncate ${
+                            isSelected
+                              ? "bg-orange-500 hover:bg-orange-600 text-white"
+                              : "bg-secondary hover:bg-secondary/80 text-foreground"
+                          }`}
+                          variant="outline"
+                        >
+                          {player.full_name}
+                        </Button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Away Team Players */}
+                <div>
+                  <label className="text-xs font-semibold text-muted-foreground block mb-3">
+                    JOUEURS - {game?.awayTeam}
+                  </label>
+                  <div className="grid grid-cols-2 gap-2">
+                    {awayRoster.slice(0, 8).map((player) => {
+                      const isSelected = awayMissingPlayers.some((p) => p.id === player.id);
+                      return (
+                        <Button
+                          key={player.id}
+                          onClick={() => {
+                            if (isSelected) {
+                              removeAwayMissingPlayer(player.id);
+                            } else {
+                              addAwayMissingPlayer(player);
+                            }
+                          }}
+                          className={`h-9 text-xs truncate ${
+                            isSelected
+                              ? "bg-orange-500 hover:bg-orange-600 text-white"
+                              : "bg-secondary hover:bg-secondary/80 text-foreground"
+                          }`}
+                          variant="outline"
+                        >
+                          {player.full_name}
+                        </Button>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* Action Buttons */}
