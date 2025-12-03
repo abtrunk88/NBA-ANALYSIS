@@ -309,6 +309,27 @@ export interface CalculatorResult {
   recommendation?: string;
 }
 
+export interface ShootingStats {
+  team: string;
+  FG2M: number;
+  FG2M_Range: string;
+  FG3M: number;
+  FG3M_Range: string;
+  Total_FG: number;
+}
+
+export interface ShootingPrediction {
+  matchup: string;
+  pace_context: string;
+  home: ShootingStats;
+  away: ShootingStats;
+  analysis: {
+    "3pt_winner": string;
+    "2pt_winner": string;
+    "fatigue_impact": string;
+  };
+}
+
 export const nbaApi = {
   async get48hGames(): Promise<TodayGame[]> {
     const response = await fetch(`${API_BASE_URL}/games/30h`);
