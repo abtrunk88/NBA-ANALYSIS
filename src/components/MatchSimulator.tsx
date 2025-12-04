@@ -37,12 +37,23 @@ export function MatchSimulator({
   awayTeamId,
   homeTeamName,
   awayTeamName,
+  homeAbsentPlayerIds: propHomeAbsentPlayerIds,
+  awayAbsentPlayerIds: propAwayAbsentPlayerIds,
+  onHomeAbsentPlayersChange,
+  onAwayAbsentPlayersChange,
 }: MatchSimulatorProps) {
-  const [homeAbsentPlayerIds, setHomeAbsentPlayerIds] = useState<number[]>([]);
-  const [awayAbsentPlayerIds, setAwayAbsentPlayerIds] = useState<number[]>([]);
+  const [localHomeAbsentPlayerIds, setLocalHomeAbsentPlayerIds] = useState<number[]>([]);
+  const [localAwayAbsentPlayerIds, setLocalAwayAbsentPlayerIds] = useState<number[]>([]);
   const [selectedPlayer, setSelectedPlayer] = useState<PlayerFullPrediction | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalTeam, setModalTeam] = useState<"home" | "away">("home");
+
+  // Use prop values if provided, otherwise use local state
+  const homeAbsentPlayerIds = propHomeAbsentPlayerIds ?? localHomeAbsentPlayerIds;
+  const awayAbsentPlayerIds = propAwayAbsentPlayerIds ?? localAwayAbsentPlayerIds;
+
+  const setHomeAbsentPlayerIds = onHomeAbsentPlayersChange ?? setLocalHomeAbsentPlayerIds;
+  const setAwayAbsentPlayerIds = onAwayAbsentPlayersChange ?? setLocalAwayAbsentPlayerIds;
 
   // Initial fetch without absent players
   const { data: initialPrediction, isLoading: initialLoading } = useQuery({
