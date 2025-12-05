@@ -226,7 +226,7 @@ export function MatchPredictionModal({
         </DialogHeader>
 
         {/* Content */}
-        <ScrollArea className="flex-1 min-h-0 overflow-hidden">
+        <ScrollArea className="flex-1 min-h-0">
           <div className="p-6">
             {isLoading ? (
               <div className="flex items-center justify-center py-20">
