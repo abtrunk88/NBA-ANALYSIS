@@ -908,7 +908,7 @@ export function MatchPredictionModal({
         </ScrollArea>
 
         {/* Footer Actions */}
-        <div className="border-t border-blue-500/20 px-6 py-4 bg-slate-900 flex gap-3">
+        <div className="border-t border-blue-500/20 px-6 py-4 bg-slate-900 flex gap-3 flex-shrink-0">
           <Button
             onClick={() => refetch()}
             variant="outline"
