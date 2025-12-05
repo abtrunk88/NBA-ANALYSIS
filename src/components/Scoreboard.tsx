@@ -8,10 +8,13 @@ import { useNavigate } from "react-router-dom";
 import { MatchPredictionModal } from "./MatchPredictionModal";
 import { Badge } from "@/components/ui/badge";
 
+const getLogo = (id: any) => `https://cdn.nba.com/logos/nba/${id}/global/L/logo.svg`;
+
 export function Scoreboard() {
   const navigate = useNavigate();
   const [selectedGame, setSelectedGame] = useState<TodayGame | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const [failedLogos, setFailedLogos] = useState<Set<string>>(new Set());
 
   const { data: games, isLoading } = useQuery({
     queryKey: ["48h-games"],
@@ -30,6 +33,10 @@ export function Scoreboard() {
 
   const formatGameTime = (status: string): string => {
     return status.replace(/\sGMT/gi, "").trim();
+  };
+
+  const handleLogoError = (teamId: string) => {
+    setFailedLogos((prev) => new Set([...prev, teamId]));
   };
 
   if (isLoading) {
