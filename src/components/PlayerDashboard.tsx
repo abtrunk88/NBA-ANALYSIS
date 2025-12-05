@@ -158,34 +158,34 @@ export function PlayerDashboard({ player }: PlayerDashboardProps) {
               {/* --- NOUVELLE SECTION: FORME RECENTE (7 MATCHS) --- */}
               {avg7 && (
                 <div>
-                  <h3 className="text-sm font-semibold text-orange-400 mb-3 flex items-center gap-2">
+                  <h3 className="text-sm font-semibold text-orange-400 uppercase tracking-wider mb-3 flex items-center gap-2">
                     <Activity className="h-4 w-4" />
                     FORME RÉCENTE (7 DERNIERS MATCHS)
                   </h3>
                   <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
-                    <div className="text-center bg-primary/20 p-3 rounded-lg border border-primary/30">
-                      <p className="text-2xl font-display font-bold text-primary">{avg7.PTS.toFixed(1)}</p>
-                      <p className="text-xs text-muted-foreground mt-1 font-bold">PTS</p>
+                    <div className="text-center bg-amber-500/20 border border-amber-500/30 p-3 rounded-lg">
+                      <p className="text-2xl font-display font-bold text-amber-300">{avg7.PTS.toFixed(1)}</p>
+                      <p className="text-xs text-slate-400 mt-1 font-bold">PTS</p>
                     </div>
-                    <div className="text-center bg-nba-blue/20 p-3 rounded-lg border border-nba-blue/30">
-                      <p className="text-2xl font-display font-bold text-nba-blue">{avg7.REB.toFixed(1)}</p>
-                      <p className="text-xs text-muted-foreground mt-1 font-bold">REB</p>
+                    <div className="text-center bg-blue-500/20 border border-blue-500/30 p-3 rounded-lg">
+                      <p className="text-2xl font-display font-bold text-blue-300">{avg7.REB.toFixed(1)}</p>
+                      <p className="text-xs text-slate-400 mt-1 font-bold">REB</p>
                     </div>
-                    <div className="text-center bg-accent/20 p-3 rounded-lg border border-accent/30">
-                      <p className="text-2xl font-display font-bold text-accent">{avg7.AST.toFixed(1)}</p>
-                      <p className="text-xs text-muted-foreground mt-1 font-bold">AST</p>
+                    <div className="text-center bg-emerald-500/20 border border-emerald-500/30 p-3 rounded-lg">
+                      <p className="text-2xl font-display font-bold text-emerald-300">{avg7.AST.toFixed(1)}</p>
+                      <p className="text-xs text-slate-400 mt-1 font-bold">AST</p>
                     </div>
-                    <div className="text-center bg-secondary/60 p-3 rounded-lg border border-border">
-                      <p className="text-2xl font-display font-bold text-foreground">{avg7.PRA.toFixed(1)}</p>
-                      <p className="text-xs text-muted-foreground mt-1 font-bold">PRA</p>
+                    <div className="text-center bg-purple-500/20 border border-purple-500/30 p-3 rounded-lg">
+                      <p className="text-2xl font-display font-bold text-purple-300">{avg7.PRA.toFixed(1)}</p>
+                      <p className="text-xs text-slate-400 mt-1 font-bold">PRA</p>
                     </div>
-                    <div className="text-center bg-secondary/60 p-3 rounded-lg border border-border">
-                      <p className="text-2xl font-display font-bold text-foreground">{avg7.PA.toFixed(1)}</p>
-                      <p className="text-xs text-muted-foreground mt-1 font-bold">PA</p>
+                    <div className="text-center bg-pink-500/20 border border-pink-500/30 p-3 rounded-lg">
+                      <p className="text-2xl font-display font-bold text-pink-300">{avg7.PA.toFixed(1)}</p>
+                      <p className="text-xs text-slate-400 mt-1 font-bold">PA</p>
                     </div>
-                     <div className="text-center bg-secondary/60 p-3 rounded-lg border border-border">
-                      <p className="text-2xl font-display font-bold text-foreground">{avg7.PR.toFixed(1)}</p>
-                      <p className="text-xs text-muted-foreground mt-1 font-bold">PR</p>
+                     <div className="text-center bg-indigo-500/20 border border-indigo-500/30 p-3 rounded-lg">
+                      <p className="text-2xl font-display font-bold text-indigo-300">{avg7.PR.toFixed(1)}</p>
+                      <p className="text-xs text-slate-400 mt-1 font-bold">PR</p>
                     </div>
                   </div>
                 </div>
