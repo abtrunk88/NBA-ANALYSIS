@@ -88,14 +88,14 @@ export function PlayerDashboard({ player }: PlayerDashboardProps) {
 
   return (
     <div className="space-y-6">
-      {/* Player Summary Card */}
-      <Card className="card-gradient border-border">
+      {/* Player Summary Card - Dark Theme */}
+      <Card className="bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 border-slate-700/50">
         <CardHeader>
-          <CardTitle className="flex items-center gap-3 text-foreground">
-            <TrendingUp className="h-6 w-6 text-primary" />
+          <CardTitle className="flex items-center gap-3">
+            <TrendingUp className="h-6 w-6 text-cyan-400" />
             <div>
-              <h2 className="text-3xl font-display font-bold">{player.full_name}</h2>
-              {player.team && <p className="text-sm text-muted-foreground mt-1">{player.team}</p>}
+              <h2 className="text-3xl font-display font-bold text-white">{player.full_name}</h2>
+              {player.team && <p className="text-sm text-slate-400 mt-1">{player.team}</p>}
             </div>
           </CardTitle>
         </CardHeader>
