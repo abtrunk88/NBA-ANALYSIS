@@ -229,55 +229,55 @@ export function PlayerDashboard({ player }: PlayerDashboardProps) {
 
         {/* Tab 1: Recent Games */}
         <TabsContent value="recent">
-          <Card className="card-gradient border-border">
+          <Card className="bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 border-slate-700/50">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-foreground">
-                <Activity className="h-5 w-5 text-primary" />
+              <CardTitle className="flex items-center gap-2 text-white">
+                <Activity className="h-5 w-5 text-cyan-400" />
                 Derniers Matchs
               </CardTitle>
             </CardHeader>
             <CardContent>
               {recentLoading ? (
-                <p className="text-muted-foreground text-center">Loading recent games...</p>
+                <p className="text-slate-400 text-center">Loading recent games...</p>
               ) : recentGames && recentGames.length > 0 ? (
                 <div className="overflow-x-auto">
                   <Table>
                     <TableHeader>
-                      <TableRow>
-                        <TableHead>Date</TableHead>
-                        <TableHead>Matchup</TableHead>
-                        <TableHead className="text-center">W/L</TableHead>
-                        <TableHead className="text-center">PTS</TableHead>
-                        <TableHead className="text-center">REB</TableHead>
-                        <TableHead className="text-center">AST</TableHead>
-                        <TableHead className="text-center font-bold">PRA</TableHead>
-                        <TableHead className="text-center font-bold">PA</TableHead>
-                        <TableHead className="text-center font-bold">PR</TableHead>
+                      <TableRow className="border-slate-700/50">
+                        <TableHead className="text-slate-400">Date</TableHead>
+                        <TableHead className="text-slate-400">Matchup</TableHead>
+                        <TableHead className="text-center text-slate-400">W/L</TableHead>
+                        <TableHead className="text-center text-slate-400">PTS</TableHead>
+                        <TableHead className="text-center text-slate-400">REB</TableHead>
+                        <TableHead className="text-center text-slate-400">AST</TableHead>
+                        <TableHead className="text-center font-bold text-slate-400">PRA</TableHead>
+                        <TableHead className="text-center font-bold text-slate-400">PA</TableHead>
+                        <TableHead className="text-center font-bold text-slate-400">PR</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
                       {recentGames.map((game, idx) => (
-                        <TableRow key={idx} className="hover:bg-secondary/50 transition-colors">
-                          <TableCell className="font-medium">{game.GAME_DATE}</TableCell>
-                          <TableCell className="font-medium">{game.MATCHUP}</TableCell>
+                        <TableRow key={idx} className="hover:bg-slate-800/50 transition-colors border-slate-700/50">
+                          <TableCell className="font-medium text-slate-300">{game.GAME_DATE}</TableCell>
+                          <TableCell className="font-medium text-slate-300">{game.MATCHUP}</TableCell>
                           <TableCell className="text-center">
-                            <span className={`font-bold ${game.WL === "W" ? "text-win" : "text-loss"}`}>
+                            <span className={`font-bold ${game.WL === "W" ? "text-emerald-400" : "text-red-400"}`}>
                               {game.WL}
                             </span>
                           </TableCell>
                           <TableCell className="text-center">
-                            <span className="text-primary font-bold text-lg">{game.PTS}</span>
+                            <span className="text-amber-300 font-bold text-lg">{game.PTS}</span>
                           </TableCell>
-                          <TableCell className="text-center text-nba-blue font-semibold">{game.REB}</TableCell>
-                          <TableCell className="text-center text-accent font-semibold">{game.AST}</TableCell>
+                          <TableCell className="text-center text-blue-300 font-semibold">{game.REB}</TableCell>
+                          <TableCell className="text-center text-emerald-300 font-semibold">{game.AST}</TableCell>
                           <TableCell className="text-center">
-                            <span className="text-primary font-bold text-lg">{game.PRA}</span>
-                          </TableCell>
-                          <TableCell className="text-center">
-                            <span className="text-accent font-bold text-lg">{game.PA}</span>
+                            <span className="text-purple-300 font-bold text-lg">{game.PRA}</span>
                           </TableCell>
                           <TableCell className="text-center">
-                            <span className="text-nba-blue font-bold text-lg">{game.PR}</span>
+                            <span className="text-pink-300 font-bold text-lg">{game.PA}</span>
+                          </TableCell>
+                          <TableCell className="text-center">
+                            <span className="text-indigo-300 font-bold text-lg">{game.PR}</span>
                           </TableCell>
                         </TableRow>
                       ))}
@@ -285,7 +285,7 @@ export function PlayerDashboard({ player }: PlayerDashboardProps) {
                   </Table>
                 </div>
               ) : (
-                <p className="text-muted-foreground text-center">No recent games found</p>
+                <p className="text-slate-400 text-center">No recent games found</p>
               )}
             </CardContent>
           </Card>
