@@ -471,29 +471,29 @@ export function PlayerDashboard({ player }: PlayerDashboardProps) {
 
         {/* Tab 4: Impact Analyzer */}
         <TabsContent value="impact">
-          <Card className="card-gradient border-border">
+          <Card className="bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 border-slate-700/50">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-foreground">
-                <AlertCircle className="h-5 w-5 text-primary" />
+              <CardTitle className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5 text-cyan-400" />
                 Analyseur d'Impact (Absences)
               </CardTitle>
             </CardHeader>
             <CardContent>
               {impactLoading ? (
                 <div className="flex flex-col items-center justify-center py-12">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mb-3"></div>
-                  <p className="text-muted-foreground">Chargement de l'analyse...</p>
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-400 mb-3"></div>
+                  <p className="text-slate-400">Chargement de l'analyse...</p>
                 </div>
               ) : missingPlayerAnalysis ? (
                 <>
                   {/* Iron Men Case: No missing games */}
                   {missingPlayerAnalysis.stats_without.games === 0 ? (
-                    <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-lg p-6">
+                    <div className="bg-emerald-500/20 border border-emerald-500/30 rounded-lg p-6">
                       <div className="flex items-center gap-3 mb-4">
-                        <AlertCircle className="h-6 w-6 text-emerald-600" />
-                        <h3 className="text-lg font-semibold text-emerald-600">Iron Man</h3>
+                        <AlertCircle className="h-6 w-6 text-emerald-400" />
+                        <h3 className="text-lg font-semibold text-emerald-400">Iron Man</h3>
                       </div>
-                      <p className="text-foreground text-center">
+                      <p className="text-slate-200 text-center">
                         {player.full_name} n'a manqué aucun match. Ce joueur est un véritable "Iron Man" de l'équipe!
                       </p>
                     </div>
@@ -502,7 +502,7 @@ export function PlayerDashboard({ player }: PlayerDashboardProps) {
                       {/* Split View: With vs Without */}
                       <div className="space-y-6">
                         <div className="text-center mb-6">
-                          <h3 className="text-2xl font-display font-bold text-foreground">
+                          <h3 className="text-2xl font-display font-bold text-white">
                             Impact de {player.full_name} sur {player.team}
                           </h3>
                         </div>
@@ -510,25 +510,25 @@ export function PlayerDashboard({ player }: PlayerDashboardProps) {
                         {/* Stats Comparison Grid */}
                         <div className="grid grid-cols-3 gap-4">
                           {/* With Player (Green Left) */}
-                          <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-lg p-4">
-                            <h4 className="text-sm font-semibold text-emerald-600 mb-4 text-center">
+                          <div className="bg-emerald-500/20 border border-emerald-500/30 rounded-lg p-4">
+                            <h4 className="text-sm font-semibold text-emerald-400 mb-4 text-center">
                               {missingPlayerAnalysis.stats_with.status}
                             </h4>
                             <div className="space-y-3">
                               <div>
-                                <p className="text-xs text-muted-foreground mb-1">% de Victoire</p>
-                                <p className="text-2xl font-bold text-emerald-600">
+                                <p className="text-xs text-slate-400 mb-1">% de Victoire</p>
+                                <p className="text-2xl font-bold text-emerald-300">
                                   {(missingPlayerAnalysis.stats_with.win_percentage * 100).toFixed(1)}%
                                 </p>
                               </div>
                               <div>
-                                <p className="text-xs text-muted-foreground mb-1">Scoring (PPG)</p>
-                                <p className="text-2xl font-bold text-emerald-600">
+                                <p className="text-xs text-slate-400 mb-1">Scoring (PPG)</p>
+                                <p className="text-2xl font-bold text-emerald-300">
                                   {missingPlayerAnalysis.stats_with.ppg.toFixed(1)}
                                 </p>
                               </div>
                               <div>
-                                <p className="text-xs text-muted-foreground">
+                                <p className="text-xs text-slate-400">
                                   {missingPlayerAnalysis.stats_with.games} matchs
                                 </p>
                               </div>
@@ -537,44 +537,44 @@ export function PlayerDashboard({ player }: PlayerDashboardProps) {
 
                           {/* Difference Badge (Center) */}
                           <div className="flex items-center justify-center">
-                            <div className="bg-secondary/50 rounded-lg p-4 text-center">
-                              <p className="text-xs text-muted-foreground mb-2">Différence</p>
+                            <div className="bg-slate-700/50 rounded-lg p-4 text-center border border-slate-600/50">
+                              <p className="text-xs text-slate-400 mb-2">Différence</p>
                               <Badge
                                 variant={
                                   (missingPlayerAnalysis.stats_with.win_percentage - missingPlayerAnalysis.stats_without.win_percentage) >= 0
                                     ? "default"
                                     : "destructive"
                                 }
-                                className="text-lg py-2 px-3"
+                                className="text-lg py-2 px-3 bg-cyan-600 hover:bg-cyan-700"
                               >
                                 {(
                                   (missingPlayerAnalysis.stats_with.win_percentage - missingPlayerAnalysis.stats_without.win_percentage) * 100
                                 ).toFixed(0)}%
                               </Badge>
-                              <p className="text-xs text-muted-foreground mt-2">Victoires</p>
+                              <p className="text-xs text-slate-400 mt-2">Victoires</p>
                             </div>
                           </div>
 
                           {/* Without Player (Red Right) */}
-                          <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-4">
-                            <h4 className="text-sm font-semibold text-red-600 mb-4 text-center">
+                          <div className="bg-red-500/20 border border-red-500/30 rounded-lg p-4">
+                            <h4 className="text-sm font-semibold text-red-400 mb-4 text-center">
                               {missingPlayerAnalysis.stats_without.status}
                             </h4>
                             <div className="space-y-3">
                               <div>
-                                <p className="text-xs text-muted-foreground mb-1">% de Victoire</p>
-                                <p className="text-2xl font-bold text-red-600">
+                                <p className="text-xs text-slate-400 mb-1">% de Victoire</p>
+                                <p className="text-2xl font-bold text-red-300">
                                   {(missingPlayerAnalysis.stats_without.win_percentage * 100).toFixed(1)}%
                                 </p>
                               </div>
                               <div>
-                                <p className="text-xs text-muted-foreground mb-1">Scoring (PPG)</p>
-                                <p className="text-2xl font-bold text-red-600">
+                                <p className="text-xs text-slate-400 mb-1">Scoring (PPG)</p>
+                                <p className="text-2xl font-bold text-red-300">
                                   {missingPlayerAnalysis.stats_without.ppg.toFixed(1)}
                                 </p>
                               </div>
                               <div>
-                                <p className="text-xs text-muted-foreground">
+                                <p className="text-xs text-slate-400">
                                   {missingPlayerAnalysis.stats_without.games} matchs
                                 </p>
                               </div>
@@ -583,20 +583,20 @@ export function PlayerDashboard({ player }: PlayerDashboardProps) {
                         </div>
 
                         {/* PPG Difference */}
-                        <div className="bg-secondary/30 rounded-lg p-4">
+                        <div className="bg-slate-700/50 rounded-lg p-4 border border-slate-600/50">
                           <div className="grid grid-cols-2 gap-4">
                             <div>
-                              <p className="text-xs text-muted-foreground mb-2">Écart PPG Équipe</p>
+                              <p className="text-xs text-slate-400 mb-2">Écart PPG Équipe</p>
                               <p className={`text-2xl font-bold ${
                                 (missingPlayerAnalysis.stats_with.ppg - missingPlayerAnalysis.stats_without.ppg) >= 0
-                                  ? "text-emerald-600"
-                                  : "text-red-600"
+                                  ? "text-emerald-300"
+                                  : "text-red-300"
                               }`}>
                                 {(missingPlayerAnalysis.stats_with.ppg - missingPlayerAnalysis.stats_without.ppg).toFixed(1)} pts
                               </p>
                             </div>
                             <div className="flex items-center justify-center">
-                              <Badge variant="outline" className="text-sm">
+                              <Badge variant="outline" className="text-sm bg-slate-700/50 border-slate-600/50 text-slate-300">
                                 {(missingPlayerAnalysis.stats_with.ppg - missingPlayerAnalysis.stats_without.ppg) >= 0 ? "+" : ""}
                                 {(
                                   ((missingPlayerAnalysis.stats_with.ppg - missingPlayerAnalysis.stats_without.ppg) /
@@ -612,7 +612,7 @@ export function PlayerDashboard({ player }: PlayerDashboardProps) {
                 </>
               ) : (
                 <div className="flex flex-col items-center justify-center py-12">
-                  <p className="text-muted-foreground text-center">Aucune donnée d'analyse disponible pour ce joueur.</p>
+                  <p className="text-slate-400 text-center">Aucune donnée d'analyse disponible pour ce joueur.</p>
                 </div>
               )}
             </CardContent>
