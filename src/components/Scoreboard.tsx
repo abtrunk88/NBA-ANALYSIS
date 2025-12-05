@@ -8,10 +8,13 @@ import { useNavigate } from "react-router-dom";
 import { MatchPredictionModal } from "./MatchPredictionModal";
 import { Badge } from "@/components/ui/badge";
 
+const getLogo = (id: any) => `https://cdn.nba.com/logos/nba/${id}/global/L/logo.svg`;
+
 export function Scoreboard() {
   const navigate = useNavigate();
   const [selectedGame, setSelectedGame] = useState<TodayGame | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const [failedLogos, setFailedLogos] = useState<Set<string>>(new Set());
 
   const { data: games, isLoading } = useQuery({
     queryKey: ["48h-games"],
@@ -30,6 +33,10 @@ export function Scoreboard() {
 
   const formatGameTime = (status: string): string => {
     return status.replace(/\sGMT/gi, "").trim();
+  };
+
+  const handleLogoError = (teamId: string) => {
+    setFailedLogos((prev) => new Set([...prev, teamId]));
   };
 
   if (isLoading) {
@@ -116,9 +123,20 @@ export function Scoreboard() {
                         <p className="text-xs font-semibold text-blue-300/60 uppercase tracking-wide mb-2">
                           Away
                         </p>
-                        <p className="text-lg font-bold text-white truncate mb-2">
-                          {game.awayTeam}
-                        </p>
+                        <div className="flex justify-center mb-2">
+                          {game.awayTeamId && !failedLogos.has(`away-${game.gameId}`) ? (
+                            <img
+                              src={getLogo(game.awayTeamId)}
+                              alt={game.awayTeam}
+                              className="h-14 w-14 object-contain"
+                              onError={() => handleLogoError(`away-${game.gameId}`)}
+                            />
+                          ) : (
+                            <p className="text-lg font-bold text-white truncate">
+                              {game.awayTeam}
+                            </p>
+                          )}
+                        </div>
                         {game.awayScore !== undefined && (
                           <p className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
                             {game.awayScore}
@@ -146,9 +164,20 @@ export function Scoreboard() {
                         <p className="text-xs font-semibold text-blue-300/60 uppercase tracking-wide mb-2">
                           Home
                         </p>
-                        <p className="text-lg font-bold text-white truncate mb-2">
-                          {game.homeTeam}
-                        </p>
+                        <div className="flex justify-center mb-2">
+                          {game.homeTeamId && !failedLogos.has(`home-${game.gameId}`) ? (
+                            <img
+                              src={getLogo(game.homeTeamId)}
+                              alt={game.homeTeam}
+                              className="h-14 w-14 object-contain"
+                              onError={() => handleLogoError(`home-${game.gameId}`)}
+                            />
+                          ) : (
+                            <p className="text-lg font-bold text-white truncate">
+                              {game.homeTeam}
+                            </p>
+                          )}
+                        </div>
                         {game.homeScore !== undefined && (
                           <p className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400">
                             {game.homeScore}
