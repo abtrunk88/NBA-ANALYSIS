@@ -403,10 +403,10 @@ export function PlayerDashboard({ player }: PlayerDashboardProps) {
 
         {/* Tab 3: Trend Analysis */}
         <TabsContent value="trend">
-          <Card className="card-gradient border-border">
+          <Card className="bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 border-slate-700/50">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-foreground">
-                <TrendingUp className="h-5 w-5 text-primary" />
+              <CardTitle className="flex items-center gap-2 text-white">
+                <TrendingUp className="h-5 w-5 text-cyan-400" />
                 Analyseur de Streak
               </CardTitle>
             </CardHeader>
@@ -414,12 +414,12 @@ export function PlayerDashboard({ player }: PlayerDashboardProps) {
               <div className="space-y-4 mb-6">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="text-sm font-medium text-foreground mb-2 block">Stat</label>
+                    <label className="text-sm font-medium text-slate-300 mb-2 block">Stat</label>
                     <Select value={trendStat} onValueChange={setTrendStat}>
-                      <SelectTrigger>
+                      <SelectTrigger className="bg-slate-800/50 border-slate-700/50 text-white">
                         <SelectValue />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent className="bg-slate-800 border-slate-700">
                         <SelectItem value="PTS">Points</SelectItem>
                         <SelectItem value="REB">Rebounds</SelectItem>
                         <SelectItem value="AST">Assists</SelectItem>
@@ -430,38 +430,39 @@ export function PlayerDashboard({ player }: PlayerDashboardProps) {
                     </Select>
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-foreground mb-2 block">Seuil</label>
+                    <label className="text-sm font-medium text-slate-300 mb-2 block">Seuil</label>
                     <Input
                       type="number"
                       placeholder="Ex: 25.5"
                       value={trendThreshold}
                       onChange={(e) => setTrendThreshold(e.target.value)}
                       step="0.5"
+                      className="bg-slate-800/50 border-slate-700/50 text-white placeholder-slate-500"
                     />
                   </div>
                 </div>
-                <Button onClick={handleTrendAnalysis} disabled={!trendThreshold || trendLoading} className="w-full">
+                <Button onClick={handleTrendAnalysis} disabled={!trendThreshold || trendLoading} className="w-full bg-cyan-600 hover:bg-cyan-700">
                   {trendLoading ? "Analyse en cours..." : "Analyser"}
                 </Button>
               </div>
 
               {trendResult && (
-                <div className="bg-primary/10 border border-primary/20 p-4 rounded-lg">
+                <div className="bg-cyan-500/20 border border-cyan-500/30 p-4 rounded-lg">
                   <div className="grid grid-cols-3 gap-3 mb-3">
                     <div className="text-center">
-                      <p className="text-2xl font-bold text-primary">{trendResult.current_active_streak}</p>
-                      <p className="text-xs text-muted-foreground mt-1">Current Streak</p>
+                      <p className="text-2xl font-bold text-cyan-300">{trendResult.current_active_streak}</p>
+                      <p className="text-xs text-slate-400 mt-1">Current Streak</p>
                     </div>
                     <div className="text-center">
-                      <p className="text-2xl font-bold text-accent">{trendResult.total_hits}</p>
-                      <p className="text-xs text-muted-foreground mt-1">Total Hits</p>
+                      <p className="text-2xl font-bold text-emerald-300">{trendResult.total_hits}</p>
+                      <p className="text-xs text-slate-400 mt-1">Total Hits</p>
                     </div>
                     <div className="text-center">
-                      <p className="text-2xl font-bold text-nba-blue">{trendResult.hit_rate_percent.toFixed(1)}%</p>
-                      <p className="text-xs text-muted-foreground mt-1">Hit Rate</p>
+                      <p className="text-2xl font-bold text-blue-300">{trendResult.hit_rate_percent.toFixed(1)}%</p>
+                      <p className="text-xs text-slate-400 mt-1">Hit Rate</p>
                     </div>
                   </div>
-                  <p className="text-sm text-foreground text-center">{trendResult.message}</p>
+                  <p className="text-sm text-slate-200 text-center">{trendResult.message}</p>
                 </div>
               )}
             </CardContent>
