@@ -293,10 +293,10 @@ export function PlayerDashboard({ player }: PlayerDashboardProps) {
 
         {/* Tab 2: Vs Team */}
         <TabsContent value="vs">
-          <Card className="card-gradient border-border">
+          <Card className="bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 border-slate-700/50">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-foreground">
-                <Target className="h-5 w-5 text-primary" />
+              <CardTitle className="flex items-center gap-2 text-white">
+                <Target className="h-5 w-5 text-cyan-400" />
                 Stats Contre une Équipe
               </CardTitle>
             </CardHeader>
@@ -308,9 +308,9 @@ export function PlayerDashboard({ player }: PlayerDashboardProps) {
                   value={vsTeamInput}
                   onChange={(e) => setVsTeamInput(e.target.value.toUpperCase())}
                   onKeyPress={(e) => e.key === "Enter" && handleVsTeamSearch()}
-                  className="flex-1"
+                  className="flex-1 bg-slate-800/50 border-slate-700/50 text-white placeholder-slate-500"
                 />
-                <Button onClick={handleVsTeamSearch} disabled={vsTeamLoading || !vsTeamInput.trim()}>
+                <Button onClick={handleVsTeamSearch} disabled={vsTeamLoading || !vsTeamInput.trim()} className="bg-cyan-600 hover:bg-cyan-700">
                   {vsTeamLoading ? "Chargement..." : "Rechercher"}
                 </Button>
               </div>
