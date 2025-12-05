@@ -4,8 +4,6 @@ import { nbaApi, PlayerFullPrediction } from "@/services/nbaApi";
 import {
   Dialog,
   DialogContent,
-  DialogHeader,
-  DialogTitle,
 } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
@@ -20,7 +18,8 @@ import {
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { TrendingUp, Flame, CalendarDays, Trophy } from "lucide-react";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { TrendingUp, Zap, Calendar, Target, X } from "lucide-react";
 
 interface PlayerDetailsModalProps {
   isOpen: boolean;
@@ -115,377 +114,373 @@ export function PlayerDetailsModal({
     if (colorCode) {
       switch (colorCode.toLowerCase()) {
         case "green":
-          return "bg-emerald-500/20 border-emerald-500/30 text-emerald-600";
+          return "bg-emerald-500/20 border-emerald-500/30 text-emerald-200";
         case "red":
-          return "bg-red-500/20 border-red-500/30 text-red-600";
+          return "bg-red-500/20 border-red-500/30 text-red-200";
         case "amber":
         case "yellow":
-          return "bg-amber-500/20 border-amber-500/30 text-amber-600";
+          return "bg-amber-500/20 border-amber-500/30 text-amber-200";
         default:
-          return "bg-muted border-border text-foreground";
+          return "bg-slate-800/30 border-slate-700/50 text-slate-200";
       }
     }
 
-    if (!advice) return "bg-muted border-border text-foreground";
+    if (!advice) return "bg-slate-800/30 border-slate-700/50 text-slate-200";
 
     const upper = advice.toUpperCase();
-    if (upper.includes("OVER")) return "bg-emerald-500/20 border-emerald-500/30 text-emerald-600";
-    if (upper.includes("UNDER")) return "bg-red-500/20 border-red-500/30 text-red-600";
-    return "bg-amber-500/20 border-amber-500/30 text-amber-600";
+    if (upper.includes("OVER")) return "bg-emerald-500/20 border-emerald-500/30 text-emerald-200";
+    if (upper.includes("UNDER")) return "bg-red-500/20 border-red-500/30 text-red-200";
+    return "bg-amber-500/20 border-amber-500/30 text-amber-200";
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader className="border-b pb-4">
-          <div className="space-y-2">
-            <DialogTitle className="text-2xl font-bold">
-              {player.player}
-            </DialogTitle>
-            <div className="flex items-center gap-2">
-              <span className="text-sm text-muted-foreground">Matchup:</span>
-              <Badge variant="outline" className="text-sm">
-                vs {opponentTeamName}
-              </Badge>
-              {player.position && (
-                <Badge variant="secondary" className="text-sm">
-                  {player.position}
+      <DialogContent className="max-w-4xl max-h-[95vh] overflow-y-auto bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 border-slate-700/50 p-6">
+        <button
+          onClick={() => onOpenChange(false)}
+          className="absolute right-4 top-4 p-2 hover:bg-slate-800 rounded-lg transition-colors z-10"
+        >
+          <X className="h-5 w-5 text-slate-400" />
+        </button>
+
+        {/* Hero Header Section */}
+        <div className="mb-6 mt-2">
+          <div className="flex items-start gap-8">
+            {/* Player Headshot */}
+            <div className="flex-shrink-0">
+              <Avatar className="h-32 w-32 border-2 border-blue-500/30 ring-4 ring-blue-500/10">
+                <AvatarImage
+                  src={`https://cdn.nba.com/headshots/nba/latest/1040x760/${player.player_id}.png`}
+                  alt={player.player}
+                />
+                <AvatarFallback className="bg-slate-800 text-lg font-bold text-white">
+                  {player.player.split(" ").map((n: string) => n[0]).join("")}
+                </AvatarFallback>
+              </Avatar>
+            </div>
+
+            {/* Player Info */}
+            <div className="flex-1 flex flex-col justify-between h-32">
+              <div>
+                <h1 className="text-4xl font-bold text-white mb-3 tracking-tight">
+                  {player.player}
+                </h1>
+                <div className="flex items-center gap-3 flex-wrap">
+                  <Badge className="bg-blue-500/20 text-blue-200 border-blue-500/30 text-sm font-semibold">
+                    {player.team}
+                  </Badge>
+                  {player.position && (
+                    <Badge className="bg-purple-500/20 text-purple-200 border-purple-500/30 text-sm font-semibold">
+                      {player.position}
+                    </Badge>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Opponent Info */}
+            <div className="flex flex-col items-end gap-3 h-32 justify-between flex-shrink-0">
+              <div className="text-right">
+                <p className="text-xs text-slate-400 uppercase tracking-wider mb-2 font-semibold">Opponent</p>
+                <Avatar className="h-16 w-16 mx-auto border-2 border-slate-700/50 bg-slate-800">
+                  <AvatarImage
+                    src={`https://cdn.nba.com/logos/nba/${opponentTeamId}/global/L/logo.svg`}
+                    alt={opponentTeamName}
+                  />
+                  <AvatarFallback className="bg-slate-800 text-xs font-bold text-slate-300">
+                    {opponentTeamName.substring(0, 2).toUpperCase()}
+                  </AvatarFallback>
+                </Avatar>
+              </div>
+              {player.matchup_analysis?.description && (
+                <Badge
+                  className={`text-xs font-bold px-3 py-1 ${
+                    player.matchup_analysis.description.startsWith("🔴")
+                      ? "bg-red-500/20 text-red-200 border-red-500/30"
+                      : player.matchup_analysis.description.startsWith("🟢")
+                        ? "bg-emerald-500/20 text-emerald-200 border-emerald-500/30"
+                        : "bg-amber-500/20 text-amber-200 border-amber-500/30"
+                  }`}
+                >
+                  {player.matchup_analysis.description}
                 </Badge>
               )}
             </div>
           </div>
-        </DialogHeader>
+        </div>
 
-        <div className="space-y-6">
-          {/* Projection Summary */}
-          <Card className="bg-primary/5 border-primary/20">
+        {/* Context Banner */}
+        {historyData?.fatigue && (
+          <div className="grid grid-cols-2 gap-4 mb-6">
+            <div className="backdrop-blur-md bg-slate-800/30 border border-slate-700/50 rounded-lg p-4">
+              <div className="flex items-start gap-3">
+                <Zap className="h-5 w-5 text-amber-400 flex-shrink-0 mt-0.5" />
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs text-slate-400 uppercase tracking-wider font-semibold">Fatigue Status</p>
+                  <p className="text-sm font-semibold text-white mt-1">
+                    {historyData.fatigue.status}
+                  </p>
+                  <p className="text-xs text-slate-400 mt-2">
+                    {historyData.fatigue.last_min.toFixed(0)} min last game
+                    {historyData.fatigue.days_rest > 0 ? ` • ${historyData.fatigue.days_rest} day${historyData.fatigue.days_rest !== 1 ? 's' : ''} rest` : " • Back-to-back"}
+                  </p>
+                </div>
+              </div>
+            </div>
+            
+            {historyData?.splits && (historyData.splits.home || historyData.splits.away) && (
+              <div className="backdrop-blur-md bg-slate-800/30 border border-slate-700/50 rounded-lg p-4">
+                <div className="flex items-start gap-3">
+                  <Calendar className="h-5 w-5 text-cyan-400 flex-shrink-0 mt-0.5" />
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs text-slate-400 uppercase tracking-wider font-semibold">Playing Location</p>
+                    <p className="text-sm font-semibold text-white mt-1">
+                      {isPlayerHome ? "Home Court" : "Away"}
+                    </p>
+                    <p className="text-xs text-slate-400 mt-2">
+                      {player.team} vs {opponentTeamName}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Projections Section */}
+        <div className="mb-6">
+          <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+            <Target className="h-5 w-5 text-cyan-400" />
+            Performance Forecast
+          </h2>
+          <Card className="bg-slate-800/40 border-slate-700/50">
             <CardContent className="pt-6">
               <div className="grid grid-cols-3 gap-4">
                 <div className="text-center">
-                  <p className="text-3xl font-bold text-primary">
+                  <p className="text-5xl font-black text-cyan-400 mb-2">
                     {player.predicted_stats.MIN.toFixed(1)}
                   </p>
-                  <p className="text-xs text-muted-foreground mt-1">MIN Prévues</p>
+                  <p className="text-xs text-slate-400 uppercase tracking-wider font-semibold">Minutes</p>
                 </div>
                 <div className="text-center">
-                  <p className="text-3xl font-bold text-primary">
+                  <p className="text-5xl font-black text-amber-400 mb-2">
                     {player.predicted_stats.PTS.toFixed(1)}
                   </p>
-                  <p className="text-xs text-muted-foreground mt-1">PTS Prévus</p>
+                  <p className="text-xs text-slate-400 uppercase tracking-wider font-semibold">Points</p>
                 </div>
                 <div className="text-center">
-                  <p className="text-3xl font-bold text-primary">
+                  <p className="text-5xl font-black text-emerald-400 mb-2">
                     {player.advanced_metrics_projected.PRA.toFixed(1)}
                   </p>
-                  <p className="text-xs text-muted-foreground mt-1">PRA Prévu</p>
+                  <p className="text-xs text-slate-400 uppercase tracking-wider font-semibold">Projection</p>
                 </div>
               </div>
             </CardContent>
           </Card>
+        </div>
 
-          {/* Analyse Contextuelle Section */}
-          {(historyData?.fatigue || player.matchup_analysis?.description) && (
-            <div className="space-y-3 border-t pt-4">
-              <h3 className="text-sm font-semibold text-muted-foreground flex items-center gap-2">
-                <Trophy className="h-4 w-4" />
-                Analyse Contextuelle
-              </h3>
+        {/* History & Form Section */}
+        <div className="mb-6">
+          <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+            <TrendingUp className="h-5 w-5 text-purple-400" />
+            Performance History
+          </h2>
+          <Tabs defaultValue="recent" className="w-full">
+            <TabsList className="grid w-full grid-cols-2 bg-slate-800/50 border-slate-700/50">
+              <TabsTrigger value="recent" className="text-xs uppercase">Recent Form (6 Games)</TabsTrigger>
+              <TabsTrigger value="h2h" className="text-xs uppercase">vs {opponentTeamName}</TabsTrigger>
+            </TabsList>
 
-              <div className="flex flex-wrap items-center gap-2">
-                {/* Fatigue Badge */}
-                {historyData?.fatigue && (
-                  <div className="flex items-center gap-2">
-                    <Badge
-                      variant={
-                        historyData.fatigue.color_code === "green"
-                          ? "default"
-                          : historyData.fatigue.color_code === "red"
-                            ? "destructive"
-                            : "secondary"
-                      }
-                      className={
-                        historyData.fatigue.color_code === "green"
-                          ? "bg-emerald-500/20 border-emerald-500/30 text-emerald-700 hover:bg-emerald-500/30"
-                          : historyData.fatigue.color_code === "red"
-                            ? "bg-red-500/20 border-red-500/30 text-red-700 hover:bg-red-500/30"
-                            : "bg-gray-500/20 border-gray-500/30 text-gray-700 hover:bg-gray-500/30"
-                      }
-                    >
-                      {historyData.fatigue.status}
-                    </Badge>
-                    <span className="text-xs text-muted-foreground font-medium">
-                      {historyData.fatigue.last_min.toFixed(0)} min
-                      {historyData.fatigue.days_rest > 0 ? ` (${historyData.fatigue.days_rest} day${historyData.fatigue.days_rest !== 1 ? 's' : ''} rest)` : " (back-to-back)"}
-                    </span>
-                  </div>
-                )}
-
-                {/* Matchup Badge */}
-                {player.matchup_analysis?.description && (
-                  <Badge
-                    variant="outline"
-                    className={
-                      player.matchup_analysis.description.startsWith("🔴")
-                        ? "bg-red-500/20 border-red-500/30 text-red-700 hover:bg-red-500/30"
-                        : player.matchup_analysis.description.startsWith("🟢")
-                          ? "bg-emerald-500/20 border-emerald-500/30 text-emerald-700 hover:bg-emerald-500/30"
-                          : "bg-amber-500/20 border-amber-500/30 text-amber-700 hover:bg-amber-500/30"
-                    }
-                  >
-                    {player.matchup_analysis.description}
-                  </Badge>
-                )}
-              </div>
-            </div>
-          )}
-
-
-          {/* HISTORIQUE */}
-          <div>
-            <h3 className="text-sm font-semibold text-muted-foreground mb-3 flex items-center gap-2">
-              <TrendingUp className="h-4 w-4" />
-              HISTORIQUE & FORMES
-            </h3>
-            <Tabs defaultValue="recent" className="w-full">
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="recent">Forme Récente (6 matchs)</TabsTrigger>
-                <TabsTrigger value="h2h">Face-à-Face (H2H)</TabsTrigger>
-              </TabsList>
-
-              {/* --- ONGLETS 1 : FORME RÉCENTE --- */}
-              <TabsContent value="recent" className="space-y-4 pt-4">
-                {historyLoading ? (
-                  <div className="flex items-center justify-center py-8">
-                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
-                  </div>
-                ) : recentFormAvg ? (
-                  <div className="space-y-4">
-                    {/* Home/Away Splits Comparison Card */}
-                    {historyData?.splits && (historyData.splits.home || historyData.splits.away) && (
-                      <Card className="bg-muted/40 border-muted/60">
-                        <CardContent className="pt-6">
-                          <div className="space-y-3">
-                            <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-                              Domicile vs Extérieur - {selectedStat}
-                            </p>
-                            <div className="grid grid-cols-2 gap-4">
-                              {/* Home Split */}
-                              {historyData.splits.home && (
-                                <div
-                                  className={`p-4 rounded-lg border transition-all ${
-                                    isPlayerHome
-                                      ? "bg-blue-50/50 border-blue-200 ring-1 ring-blue-200"
-                                      : "bg-background border-border"
-                                  }`}
-                                >
-                                  <p className="text-xs text-muted-foreground font-medium mb-2">
-                                    {isPlayerHome ? "🏠 Domicile (Équipe)" : "🏠 Domicile"}
-                                  </p>
-                                  <p className="text-2xl font-bold text-primary">
-                                    {getSelectedStatValue("home")?.toFixed(1) || "-"}
-                                  </p>
-                                  <p className="text-xs text-muted-foreground mt-2">{selectedStat}</p>
-                                  {historyData.splits.home.GP && (
-                                    <p className="text-xs text-muted-foreground mt-1">
-                                      {historyData.splits.home.GP} matchs
-                                    </p>
-                                  )}
-                                </div>
-                              )}
-
-                              {/* Away Split */}
-                              {historyData.splits.away && (
-                                <div
-                                  className={`p-4 rounded-lg border transition-all ${
-                                    !isPlayerHome
-                                      ? "bg-amber-50/50 border-amber-200 ring-1 ring-amber-200"
-                                      : "bg-background border-border"
-                                  }`}
-                                >
-                                  <p className="text-xs text-muted-foreground font-medium mb-2">
-                                    {!isPlayerHome ? "✈️ Extérieur (Équipe)" : "✈️ Extérieur"}
-                                  </p>
-                                  <p className="text-2xl font-bold text-primary">
-                                    {getSelectedStatValue("away")?.toFixed(1) || "-"}
-                                  </p>
-                                  <p className="text-xs text-muted-foreground mt-2">{selectedStat}</p>
-                                  {historyData.splits.away.GP && (
-                                    <p className="text-xs text-muted-foreground mt-1">
-                                      {historyData.splits.away.GP} matchs
-                                    </p>
-                                  )}
-                                </div>
-                              )}
-                            </div>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    )}
-
-                    <div className="flex items-center gap-2 mb-2">
-                      <CalendarDays className="h-4 w-4 text-blue-500" />
-                      <p className="text-sm text-muted-foreground font-medium">
-                        Moyenne sur les {recentFormAvg.GP || 6} derniers matchs
-                      </p>
-                    </div>
-                    
-                    {/* Grille de 8 Stats */}
-                    <div className="grid grid-cols-4 gap-3">
-                      {/* Ligne 1 : Principales */}
-                      <StatBox label="PTS" value={recentFormAvg.PTS} color="text-primary" />
-                      <StatBox label="REB" value={recentFormAvg.REB} color="text-blue-600" />
-                      <StatBox label="AST" value={recentFormAvg.AST} color="text-emerald-600" />
-                      
-                      {/* PRA Mis en valeur */}
-                      <div className="bg-purple-50 p-2 rounded-lg border border-purple-200 text-center flex flex-col justify-center">
-                        <span className="text-[10px] font-bold text-purple-700">PRA</span>
-                        <span className="text-xl font-black text-purple-900">
-                          {recentFormAvg.PRA?.toFixed(1) || "-"}
-                        </span>
-                      </div>
-
-                      {/* Ligne 2 : Combos & Défense */}
-                      <MiniStatBox label="Pts+Ast" value={recentFormAvg.PA} />
-                      <MiniStatBox label="Pts+Reb" value={recentFormAvg.PR} />
-                      <StatBox label="STL" value={recentFormAvg.STL} color="text-orange-600" />
-                      <StatBox label="BLK" value={recentFormAvg.BLK} color="text-gray-600" />
-                    </div>
-                  </div>
-                ) : (
-                  <div className="text-center py-8 text-muted-foreground bg-muted/20 rounded">
-                    Aucune donnée récente disponible
-                  </div>
-                )}
-              </TabsContent>
-
-              {/* --- ONGLETS 2 : H2H --- */}
-              <TabsContent value="h2h" className="space-y-4 pt-4">
-                {historyLoading ? (
-                  <div className="flex items-center justify-center py-8">
-                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
-                  </div>
-                ) : h2hAverage && h2hAverage.GP > 0 ? (
-                  <div className="space-y-3">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Trophy className="h-4 w-4 text-amber-500" />
-                      <p className="text-sm text-muted-foreground font-medium">
-                        Moyenne vs {opponentTeamName} ({h2hAverage.GP} matchs)
-                      </p>
-                    </div>
-
-                    <div className="grid grid-cols-4 gap-3">
-                      {/* Ligne 1 : Principales */}
-                      <StatBox label="PTS" value={h2hAverage.PTS} />
-                      <StatBox label="REB" value={h2hAverage.REB} color="text-blue-600" />
-                      <StatBox label="AST" value={h2hAverage.AST} color="text-emerald-600" />
-                      
-                      {/* PRA Mis en valeur */}
-                      <div className="bg-amber-50 p-2 rounded-lg border border-amber-200 text-center flex flex-col justify-center">
-                        <span className="text-[10px] font-bold text-amber-700">PRA</span>
-                        <span className="text-xl font-black text-amber-900">
-                          {h2hAverage.PRA?.toFixed(1) || "-"}
-                        </span>
-                      </div>
-
-                      {/* Ligne 2 : Combos & Défense */}
-                      <MiniStatBox label="Pts+Ast" value={h2hAverage.PA} />
-                      <MiniStatBox label="Pts+Reb" value={h2hAverage.PR} />
-                      <StatBox label="STL" value={h2hAverage.STL} color="text-orange-600" />
-                      <StatBox label="BLK" value={h2hAverage.BLK} color="text-gray-600" />
-                    </div>
-                  </div>
-                ) : (
-                  <div className="text-center py-8 text-muted-foreground bg-muted/20 rounded">
-                    Aucun historique récent contre cette équipe
-                  </div>
-                )}
-              </TabsContent>
-            </Tabs>
-          </div>
-
-          {/* Betting Calculator */}
-          <div className="border-t pt-6">
-            <h3 className="text-sm font-semibold text-muted-foreground mb-4 flex items-center gap-2">
-              <Flame className="h-4 w-4 text-orange-500" />
-              SIMULATEUR DE PARI
-            </h3>
-
-            <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <label className="text-xs font-medium text-muted-foreground">Statistique</label>
-                  <Select value={selectedStat} onValueChange={handleStatChange}>
-                    <SelectTrigger className="h-10">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="PTS">Points (PTS)</SelectItem>
-                      <SelectItem value="REB">Rebounds (REB)</SelectItem>
-                      <SelectItem value="AST">Assists (AST)</SelectItem>
-                      <SelectItem value="PRA">PRA (Pts+Reb+Ast)</SelectItem>
-                    </SelectContent>
-                  </Select>
+            {/* Recent Form Tab */}
+            <TabsContent value="recent" className="space-y-4 pt-4">
+              {historyLoading ? (
+                <div className="flex items-center justify-center py-12">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-400"></div>
                 </div>
-                <div className="space-y-2">
-                  <label className="text-xs font-medium text-muted-foreground">Ligne Bookmaker</label>
-                  <Input
-                    type="number"
-                    placeholder="Ex: 22.5"
-                    value={bookmakerLine}
-                    onChange={(e) => setBookmakerLine(e.target.value)}
-                    step="0.5"
-                    className="h-10"
-                  />
-                </div>
-              </div>
-
-              <div className="bg-secondary/30 rounded-lg p-4 flex justify-between items-center">
-                <div>
-                  <p className="text-xs text-muted-foreground">Notre Projection</p>
-                  <p className="text-2xl font-bold text-primary">{projection.toFixed(1)}</p>
-                </div>
-                {bookmakerLine && (
-                  <div className="text-right">
-                    <p className="text-xs text-muted-foreground">Écart</p>
-                    <p className={`text-lg font-bold ${
-                      (projection - parseFloat(bookmakerLine)) > 0 ? "text-emerald-600" : "text-red-600"
-                    }`}>
-                      {(projection - parseFloat(bookmakerLine)) > 0 ? "+" : ""}
-                      {(projection - parseFloat(bookmakerLine)).toFixed(1)}
-                    </p>
-                  </div>
-                )}
-              </div>
-
-              <Button
-                onClick={handleAnalyze}
-                disabled={!bookmakerLine || parseFloat(bookmakerLine) <= 0}
-                className="w-full"
-                size="lg"
-              >
-                Calculer la Probabilité
-              </Button>
-
-              {calculatorOpen && calculatorResult && (
-                <div className="space-y-4 mt-4 pt-4 border-t animate-in fade-in slide-in-from-top-2">
-                  <Card className={getRecommendationColor(calculatorResult.advice, calculatorResult.color_code)}>
-                    <CardContent className="pt-6">
-                      <div className="flex justify-between items-center mb-2">
-                        <span className="text-sm font-bold">{calculatorResult.advice}</span>
-                        <span className="text-2xl font-bold">{(calculatorResult.probability_over).toFixed(0)}%</span>
-                      </div>
-                      <Progress value={calculatorResult.probability_over} className="h-2 bg-black/10" />
-                      <p className="text-xs text-center mt-2 opacity-80">Probabilité OVER: {calculatorResult.probability_over.toFixed(1)}% | UNDER: {calculatorResult.probability_under.toFixed(1)}%</p>
-                      {calculatorResult.confidence && (
-                        <p className="text-xs text-center mt-3 opacity-75 italic font-medium">
-                          {calculatorResult.confidence}
+              ) : recentFormAvg ? (
+                <div className="space-y-4">
+                  {historyData?.splits && (historyData.splits.home || historyData.splits.away) && (
+                    <Card className="bg-slate-800/30 border-slate-700/50">
+                      <CardContent className="pt-6">
+                        <p className="text-xs text-slate-400 uppercase tracking-wider font-semibold mb-4">
+                          Home vs Away - {selectedStat}
                         </p>
-                      )}
-                    </CardContent>
-                  </Card>
+                        <div className="grid grid-cols-2 gap-4">
+                          {historyData.splits.home && (
+                            <div className={`p-4 rounded-lg border transition-all backdrop-blur-sm ${
+                              isPlayerHome
+                                ? "bg-blue-500/20 border-blue-500/30 ring-1 ring-blue-500/50"
+                                : "bg-slate-700/20 border-slate-700/50"
+                            }`}>
+                              <p className="text-xs text-slate-400 font-semibold mb-2 uppercase">Home Court</p>
+                              <p className="text-3xl font-bold text-blue-300">
+                                {getSelectedStatValue("home")?.toFixed(1) || "-"}
+                              </p>
+                              <p className="text-xs text-slate-400 mt-2">
+                                {historyData.splits.home.GP} games
+                              </p>
+                            </div>
+                          )}
+                          {historyData.splits.away && (
+                            <div className={`p-4 rounded-lg border transition-all backdrop-blur-sm ${
+                              !isPlayerHome
+                                ? "bg-amber-500/20 border-amber-500/30 ring-1 ring-amber-500/50"
+                                : "bg-slate-700/20 border-slate-700/50"
+                            }`}>
+                              <p className="text-xs text-slate-400 font-semibold mb-2 uppercase">Away</p>
+                              <p className="text-3xl font-bold text-amber-300">
+                                {getSelectedStatValue("away")?.toFixed(1) || "-"}
+                              </p>
+                              <p className="text-xs text-slate-400 mt-2">
+                                {historyData.splits.away.GP} games
+                              </p>
+                            </div>
+                          )}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  )}
+
+                  <div className="grid grid-cols-4 gap-3">
+                    <StatBoxDark label="PTS" value={recentFormAvg.PTS} color="text-amber-300" />
+                    <StatBoxDark label="REB" value={recentFormAvg.REB} color="text-blue-300" />
+                    <StatBoxDark label="AST" value={recentFormAvg.AST} color="text-emerald-300" />
+                    <StatBoxDark label="PRA" value={recentFormAvg.PRA} color="text-purple-300" highlight={true} />
+                    <StatBoxDark label="Pts+Ast" value={recentFormAvg.PA} color="text-pink-300" />
+                    <StatBoxDark label="Pts+Reb" value={recentFormAvg.PR} color="text-indigo-300" />
+                    <StatBoxDark label="STL" value={recentFormAvg.STL} color="text-orange-300" />
+                    <StatBoxDark label="BLK" value={recentFormAvg.BLK} color="text-gray-300" />
+                  </div>
+                </div>
+              ) : (
+                <div className="text-center py-12 text-slate-400 bg-slate-800/20 rounded-lg">
+                  No recent data available
                 </div>
               )}
+            </TabsContent>
+
+            {/* H2H Tab */}
+            <TabsContent value="h2h" className="space-y-4 pt-4">
+              {historyLoading ? (
+                <div className="flex items-center justify-center py-12">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-400"></div>
+                </div>
+              ) : h2hAverage && h2hAverage.GP > 0 ? (
+                <div className="space-y-4">
+                  <p className="text-xs text-slate-400 uppercase tracking-wider font-semibold">
+                    Average vs {opponentTeamName} ({h2hAverage.GP} games)
+                  </p>
+                  <div className="grid grid-cols-4 gap-3">
+                    <StatBoxDark label="PTS" value={h2hAverage.PTS} color="text-amber-300" />
+                    <StatBoxDark label="REB" value={h2hAverage.REB} color="text-blue-300" />
+                    <StatBoxDark label="AST" value={h2hAverage.AST} color="text-emerald-300" />
+                    <StatBoxDark label="PRA" value={h2hAverage.PRA} color="text-purple-300" highlight={true} />
+                    <StatBoxDark label="Pts+Ast" value={h2hAverage.PA} color="text-pink-300" />
+                    <StatBoxDark label="Pts+Reb" value={h2hAverage.PR} color="text-indigo-300" />
+                    <StatBoxDark label="STL" value={h2hAverage.STL} color="text-orange-300" />
+                    <StatBoxDark label="BLK" value={h2hAverage.BLK} color="text-gray-300" />
+                  </div>
+                </div>
+              ) : (
+                <div className="text-center py-12 text-slate-400 bg-slate-800/20 rounded-lg">
+                  No head-to-head history
+                </div>
+              )}
+            </TabsContent>
+          </Tabs>
+        </div>
+
+        {/* Analysis Calculator */}
+        <div>
+          <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+            <Zap className="h-5 w-5 text-yellow-400" />
+            Projection Analyzer
+          </h2>
+
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider">Statistic</label>
+                <Select value={selectedStat} onValueChange={handleStatChange}>
+                  <SelectTrigger className="h-10 bg-slate-800/50 border-slate-700/50 text-white">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="bg-slate-800 border-slate-700">
+                    <SelectItem value="PTS">Points (PTS)</SelectItem>
+                    <SelectItem value="REB">Rebounds (REB)</SelectItem>
+                    <SelectItem value="AST">Assists (AST)</SelectItem>
+                    <SelectItem value="PRA">Projection (PRA)</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider">Target Line</label>
+                <Input
+                  type="number"
+                  placeholder="e.g., 22.5"
+                  value={bookmakerLine}
+                  onChange={(e) => setBookmakerLine(e.target.value)}
+                  step="0.5"
+                  className="h-10 bg-slate-800/50 border-slate-700/50 text-white"
+                />
+              </div>
             </div>
+
+            <Card className="bg-gradient-to-r from-slate-800/40 to-slate-700/30 border-slate-700/50">
+              <CardContent className="pt-6">
+                <div className="grid grid-cols-3 gap-4 items-center">
+                  <div>
+                    <p className="text-xs text-slate-400 uppercase tracking-wider font-semibold">Our Forecast</p>
+                    <p className="text-3xl font-bold text-cyan-300 mt-2">{projection.toFixed(1)}</p>
+                  </div>
+                  {bookmakerLine && (
+                    <>
+                      <div className="h-12 border-l border-slate-700/50"></div>
+                      <div className="text-right">
+                        <p className="text-xs text-slate-400 uppercase tracking-wider font-semibold">Difference</p>
+                        <p className={`text-3xl font-bold mt-2 ${
+                          (projection - parseFloat(bookmakerLine)) > 0 ? "text-emerald-300" : "text-red-300"
+                        }`}>
+                          {(projection - parseFloat(bookmakerLine)) > 0 ? "+" : ""}
+                          {(projection - parseFloat(bookmakerLine)).toFixed(1)}
+                        </p>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+
+            <Button
+              onClick={handleAnalyze}
+              disabled={!bookmakerLine || parseFloat(bookmakerLine) <= 0}
+              className="w-full bg-cyan-600 hover:bg-cyan-700 text-white font-semibold py-2 h-11"
+              size="lg"
+            >
+              Analyze Projection
+            </Button>
+
+            {calculatorOpen && calculatorResult && (
+              <div className="space-y-4 animate-in fade-in slide-in-from-top-2">
+                <Card className={`${getRecommendationColor(calculatorResult.advice, calculatorResult.color_code)} border-2`}>
+                  <CardContent className="pt-6">
+                    <div className="flex justify-between items-start mb-4">
+                      <span className="text-sm font-bold uppercase tracking-wider">{calculatorResult.advice}</span>
+                      <span className="text-4xl font-black">{(calculatorResult.probability_over).toFixed(0)}%</span>
+                    </div>
+                    <Progress value={calculatorResult.probability_over} className="h-3 bg-black/20" />
+                    <p className="text-xs text-center mt-4 opacity-90 font-semibold">
+                      Over: {calculatorResult.probability_over.toFixed(1)}% | Under: {calculatorResult.probability_under.toFixed(1)}%
+                    </p>
+                    {calculatorResult.confidence && (
+                      <p className="text-xs text-center mt-4 opacity-85 italic">
+                        {calculatorResult.confidence}
+                      </p>
+                    )}
+                  </CardContent>
+                </Card>
+              </div>
+            )}
           </div>
         </div>
       </DialogContent>
@@ -493,24 +488,15 @@ export function PlayerDetailsModal({
   );
 }
 
-// --- Petits composants pour le style ---
-
-function StatBox({ label, value, color = "text-foreground" }: { label: string, value: number | undefined, color?: string }) {
+function StatBoxDark({ label, value, color = "text-slate-300", highlight = false }: { label: string, value: number | undefined, color?: string, highlight?: boolean }) {
   return (
-    <div className="bg-background border rounded-lg p-2 text-center">
-      <p className="text-[10px] text-muted-foreground font-semibold uppercase">{label}</p>
-      <p className={`text-lg font-bold ${color}`}>
-        {value?.toFixed(1) || "-"}
-      </p>
-    </div>
-  );
-}
-
-function MiniStatBox({ label, value }: { label: string, value: number | undefined }) {
-  return (
-    <div className="bg-muted/30 border rounded p-2 text-center">
-      <p className="text-[10px] text-muted-foreground">{label}</p>
-      <p className="text-lg font-semibold text-foreground">
+    <div className={`rounded-lg p-3 text-center border transition-all ${
+      highlight
+        ? "bg-purple-500/20 border-purple-500/30"
+        : "bg-slate-800/40 border-slate-700/50"
+    }`}>
+      <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">{label}</p>
+      <p className={`text-2xl font-black mt-2 ${color}`}>
         {value?.toFixed(1) || "-"}
       </p>
     </div>
