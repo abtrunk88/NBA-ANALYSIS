@@ -101,33 +101,33 @@ export function PlayerDashboard({ player }: PlayerDashboardProps) {
         </CardHeader>
         <CardContent>
           {seasonLoading ? (
-            <p className="text-muted-foreground text-center">Loading season stats...</p>
+            <p className="text-slate-400 text-center">Loading season stats...</p>
           ) : seasonStats ? (
             <div className="space-y-6">
-              
+
               {/* --- SECTION 1: MOYENNES SAISON --- */}
               <div>
-                <h3 className="text-sm font-semibold text-muted-foreground mb-3">MOYENNES SAISON</h3>
+                <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-3">MOYENNES SAISON</h3>
                 <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-                  <div className="text-center bg-primary/10 p-4 rounded-lg">
-                    <p className="text-4xl font-display font-bold text-primary">{seasonStats.PTS.toFixed(1)}</p>
-                    <p className="text-sm text-muted-foreground mt-1">PTS</p>
+                  <div className="text-center bg-amber-500/20 border border-amber-500/30 p-4 rounded-lg">
+                    <p className="text-4xl font-display font-bold text-amber-300">{seasonStats.PTS.toFixed(1)}</p>
+                    <p className="text-sm text-slate-400 mt-1 font-semibold">PTS</p>
                   </div>
-                  <div className="text-center bg-nba-blue/10 p-4 rounded-lg">
-                    <p className="text-4xl font-display font-bold text-nba-blue">{seasonStats.REB.toFixed(1)}</p>
-                    <p className="text-sm text-muted-foreground mt-1">REB</p>
+                  <div className="text-center bg-blue-500/20 border border-blue-500/30 p-4 rounded-lg">
+                    <p className="text-4xl font-display font-bold text-blue-300">{seasonStats.REB.toFixed(1)}</p>
+                    <p className="text-sm text-slate-400 mt-1 font-semibold">REB</p>
                   </div>
-                  <div className="text-center bg-accent/10 p-4 rounded-lg">
-                    <p className="text-4xl font-display font-bold text-accent">{seasonStats.AST.toFixed(1)}</p>
-                    <p className="text-sm text-muted-foreground mt-1">AST</p>
+                  <div className="text-center bg-emerald-500/20 border border-emerald-500/30 p-4 rounded-lg">
+                    <p className="text-4xl font-display font-bold text-emerald-300">{seasonStats.AST.toFixed(1)}</p>
+                    <p className="text-sm text-slate-400 mt-1 font-semibold">AST</p>
                   </div>
-                  <div className="text-center bg-secondary/50 p-4 rounded-lg">
-                    <p className="text-4xl font-display font-bold text-foreground">{seasonStats.FG3M.toFixed(1)}</p>
-                    <p className="text-sm text-muted-foreground mt-1">3PM</p>
+                  <div className="text-center bg-slate-700/50 border border-slate-600/50 p-4 rounded-lg">
+                    <p className="text-4xl font-display font-bold text-slate-200">{seasonStats.FG3M.toFixed(1)}</p>
+                    <p className="text-sm text-slate-400 mt-1 font-semibold">3PM</p>
                   </div>
-                  <div className="text-center bg-secondary/50 p-4 rounded-lg">
-                    <p className="text-4xl font-display font-bold text-foreground">{seasonStats.MIN.toFixed(1)}</p>
-                    <p className="text-sm text-muted-foreground mt-1">MIN</p>
+                  <div className="text-center bg-slate-700/50 border border-slate-600/50 p-4 rounded-lg">
+                    <p className="text-4xl font-display font-bold text-slate-200">{seasonStats.MIN.toFixed(1)}</p>
+                    <p className="text-sm text-slate-400 mt-1 font-semibold">MIN</p>
                   </div>
                 </div>
               </div>
