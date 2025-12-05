@@ -193,23 +193,23 @@ export function PlayerDashboard({ player }: PlayerDashboardProps) {
 
               {/* --- SECTION 3: STATS ADDITIONNELLES --- */}
               <div>
-                <h3 className="text-sm font-semibold text-muted-foreground mb-3">STATS ADDITIONNELLES (SAISON)</h3>
+                <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-3">STATS ADDITIONNELLES (SAISON)</h3>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  <div className="text-center bg-secondary/50 p-3 rounded-lg">
-                    <p className="text-2xl font-display font-bold text-foreground">{seasonStats.STL.toFixed(1)}</p>
-                    <p className="text-xs text-muted-foreground mt-1">STL</p>
+                  <div className="text-center bg-slate-700/50 border border-slate-600/50 p-3 rounded-lg">
+                    <p className="text-2xl font-display font-bold text-slate-200">{seasonStats.STL.toFixed(1)}</p>
+                    <p className="text-xs text-slate-400 mt-1 font-semibold">STL</p>
                   </div>
-                  <div className="text-center bg-secondary/50 p-3 rounded-lg">
-                    <p className="text-2xl font-display font-bold text-foreground">{seasonStats.BLK.toFixed(1)}</p>
-                    <p className="text-xs text-muted-foreground mt-1">BLK</p>
+                  <div className="text-center bg-slate-700/50 border border-slate-600/50 p-3 rounded-lg">
+                    <p className="text-2xl font-display font-bold text-slate-200">{seasonStats.BLK.toFixed(1)}</p>
+                    <p className="text-xs text-slate-400 mt-1 font-semibold">BLK</p>
                   </div>
-                  <div className="text-center bg-secondary/50 p-3 rounded-lg">
-                    <p className="text-2xl font-display font-bold text-foreground">{seasonStats.GP}</p>
-                    <p className="text-xs text-muted-foreground mt-1">GP</p>
+                  <div className="text-center bg-slate-700/50 border border-slate-600/50 p-3 rounded-lg">
+                    <p className="text-2xl font-display font-bold text-slate-200">{seasonStats.GP}</p>
+                    <p className="text-xs text-slate-400 mt-1 font-semibold">GP</p>
                   </div>
-                  <div className="text-center bg-secondary/50 p-3 rounded-lg">
-                    <p className="text-2xl font-display font-bold text-foreground">{seasonStats.MIN.toFixed(1)}</p>
-                    <p className="text-xs text-muted-foreground mt-1">MIN</p>
+                  <div className="text-center bg-slate-700/50 border border-slate-600/50 p-3 rounded-lg">
+                    <p className="text-2xl font-display font-bold text-slate-200">{seasonStats.MIN.toFixed(1)}</p>
+                    <p className="text-xs text-slate-400 mt-1 font-semibold">MIN</p>
                   </div>
                 </div>
               </div>
