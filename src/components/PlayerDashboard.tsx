@@ -134,23 +134,23 @@ export function PlayerDashboard({ player }: PlayerDashboardProps) {
 
               {/* --- SECTION 2: COMBOS PARIS SPORTIFS --- */}
               <div>
-                <h3 className="text-sm font-semibold text-muted-foreground mb-3">COMBOS PARIS SPORTIFS</h3>
+                <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-3">COMBOS PARIS SPORTIFS</h3>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  <div className="text-center bg-gradient-to-br from-primary/20 to-primary/5 p-4 rounded-lg border border-primary/20">
-                    <p className="text-3xl font-display font-bold text-primary">{seasonStats.PRA.toFixed(1)}</p>
-                    <p className="text-sm text-muted-foreground mt-1">PTS+REB+AST</p>
+                  <div className="text-center bg-gradient-to-br from-purple-500/20 to-purple-500/5 p-4 rounded-lg border border-purple-500/30">
+                    <p className="text-3xl font-display font-bold text-purple-300">{seasonStats.PRA.toFixed(1)}</p>
+                    <p className="text-sm text-slate-400 mt-1 font-semibold">PTS+REB+AST</p>
                   </div>
-                  <div className="text-center bg-gradient-to-br from-accent/20 to-accent/5 p-4 rounded-lg border border-accent/20">
-                    <p className="text-3xl font-display font-bold text-accent">{seasonStats.PA.toFixed(1)}</p>
-                    <p className="text-sm text-muted-foreground mt-1">PTS+AST</p>
+                  <div className="text-center bg-gradient-to-br from-pink-500/20 to-pink-500/5 p-4 rounded-lg border border-pink-500/30">
+                    <p className="text-3xl font-display font-bold text-pink-300">{seasonStats.PA.toFixed(1)}</p>
+                    <p className="text-sm text-slate-400 mt-1 font-semibold">PTS+AST</p>
                   </div>
-                  <div className="text-center bg-gradient-to-br from-nba-blue/20 to-nba-blue/5 p-4 rounded-lg border border-nba-blue/20">
-                    <p className="text-3xl font-display font-bold text-nba-blue">{seasonStats.PR.toFixed(1)}</p>
-                    <p className="text-sm text-muted-foreground mt-1">PTS+REB</p>
+                  <div className="text-center bg-gradient-to-br from-indigo-500/20 to-indigo-500/5 p-4 rounded-lg border border-indigo-500/30">
+                    <p className="text-3xl font-display font-bold text-indigo-300">{seasonStats.PR.toFixed(1)}</p>
+                    <p className="text-sm text-slate-400 mt-1 font-semibold">PTS+REB</p>
                   </div>
-                  <div className="text-center bg-secondary/50 p-4 rounded-lg border border-border">
-                    <p className="text-3xl font-display font-bold text-foreground">{seasonStats.AR.toFixed(1)}</p>
-                    <p className="text-sm text-muted-foreground mt-1">AST+REB</p>
+                  <div className="text-center bg-slate-700/50 p-4 rounded-lg border border-slate-600/50">
+                    <p className="text-3xl font-display font-bold text-slate-200">{seasonStats.AR.toFixed(1)}</p>
+                    <p className="text-sm text-slate-400 mt-1 font-semibold">AST+REB</p>
                   </div>
                 </div>
               </div>
