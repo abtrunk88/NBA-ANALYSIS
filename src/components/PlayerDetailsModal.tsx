@@ -4,8 +4,6 @@ import { nbaApi, PlayerFullPrediction } from "@/services/nbaApi";
 import {
   Dialog,
   DialogContent,
-  DialogHeader,
-  DialogTitle,
 } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
@@ -20,7 +18,8 @@ import {
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { TrendingUp, Flame, CalendarDays, Trophy } from "lucide-react";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { TrendingUp, Zap, Calendar, Target, X } from "lucide-react";
 
 interface PlayerDetailsModalProps {
   isOpen: boolean;
