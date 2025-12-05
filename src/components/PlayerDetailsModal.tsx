@@ -135,7 +135,7 @@ export function PlayerDetailsModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-4xl max-h-[95vh] overflow-y-auto bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 border-slate-700/50 p-6">
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 border-slate-700/50 p-4">
         <button
           onClick={() => onOpenChange(false)}
           className="absolute right-4 top-4 p-2 hover:bg-slate-800 rounded-lg transition-colors z-10"
