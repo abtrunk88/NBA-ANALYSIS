@@ -220,11 +220,11 @@ export function PlayerDashboard({ player }: PlayerDashboardProps) {
 
       {/* Tabs Section */}
       <Tabs defaultValue="recent" className="w-full">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="recent">Matchs Récents</TabsTrigger>
-          <TabsTrigger value="vs">Vs Adversaire</TabsTrigger>
-          <TabsTrigger value="trend">Analyseur de Streak</TabsTrigger>
-          <TabsTrigger value="impact" onClick={() => setShowImpactAnalyzer(true)}>Impact Analyzer</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-4 bg-slate-800/50 border-slate-700/50">
+          <TabsTrigger value="recent" className="text-slate-300 data-[state=active]:text-white">Matchs Récents</TabsTrigger>
+          <TabsTrigger value="vs" className="text-slate-300 data-[state=active]:text-white">Vs Adversaire</TabsTrigger>
+          <TabsTrigger value="trend" className="text-slate-300 data-[state=active]:text-white">Analyseur de Streak</TabsTrigger>
+          <TabsTrigger value="impact" onClick={() => setShowImpactAnalyzer(true)} className="text-slate-300 data-[state=active]:text-white">Impact Analyzer</TabsTrigger>
         </TabsList>
 
         {/* Tab 1: Recent Games */}
