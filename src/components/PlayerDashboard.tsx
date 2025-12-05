@@ -325,76 +325,76 @@ export function PlayerDashboard({ player }: PlayerDashboardProps) {
 
               {vsTeamLoading ? (
                 <div className="flex flex-col items-center justify-center py-12">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mb-3"></div>
-                  <p className="text-muted-foreground">Chargement des statistiques...</p>
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-400 mb-3"></div>
+                  <p className="text-slate-400">Chargement des statistiques...</p>
                 </div>
               ) : hasVsStats ? (
                 hasGamesPlayed ? (
                   <div className="space-y-6">
                     <div className="text-center mb-6">
-                      <h3 className="text-2xl font-display font-bold text-foreground">
+                      <h3 className="text-2xl font-display font-bold text-white">
                         Moyennes contre {vsTeamStats.OPPONENT || searchedTeam}
                       </h3>
-                      <p className="text-sm text-muted-foreground mt-1">sur {vsTeamStats.GP} matchs</p>
+                      <p className="text-sm text-slate-400 mt-1">sur {vsTeamStats.GP} matchs</p>
                     </div>
 
                     {/* Individual Stats */}
                     <div>
-                      <h4 className="text-sm font-semibold text-muted-foreground mb-3">STATS INDIVIDUELLES</h4>
+                      <h4 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-3">STATS INDIVIDUELLES</h4>
                       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                        <div className="text-center bg-primary/10 p-6 rounded-lg border border-primary/20">
-                          <p className="text-4xl font-display font-bold text-primary">{vsTeamStats.PTS?.toFixed(1) ?? '0.0'}</p>
-                          <p className="text-sm text-muted-foreground mt-2 font-medium">Points (PTS)</p>
+                        <div className="text-center bg-amber-500/20 border border-amber-500/30 p-6 rounded-lg">
+                          <p className="text-4xl font-display font-bold text-amber-300">{vsTeamStats.PTS?.toFixed(1) ?? '0.0'}</p>
+                          <p className="text-sm text-slate-400 mt-2 font-medium">Points (PTS)</p>
                         </div>
-                        <div className="text-center bg-nba-blue/10 p-6 rounded-lg border border-nba-blue/20">
-                          <p className="text-4xl font-display font-bold text-nba-blue">{vsTeamStats.REB?.toFixed(1) ?? '0.0'}</p>
-                          <p className="text-sm text-muted-foreground mt-2 font-medium">Rebounds (REB)</p>
+                        <div className="text-center bg-blue-500/20 border border-blue-500/30 p-6 rounded-lg">
+                          <p className="text-4xl font-display font-bold text-blue-300">{vsTeamStats.REB?.toFixed(1) ?? '0.0'}</p>
+                          <p className="text-sm text-slate-400 mt-2 font-medium">Rebounds (REB)</p>
                         </div>
-                        <div className="text-center bg-accent/10 p-6 rounded-lg border border-accent/20">
-                          <p className="text-4xl font-display font-bold text-accent">{vsTeamStats.AST?.toFixed(1) ?? '0.0'}</p>
-                          <p className="text-sm text-muted-foreground mt-2 font-medium">Assists (AST)</p>
+                        <div className="text-center bg-emerald-500/20 border border-emerald-500/30 p-6 rounded-lg">
+                          <p className="text-4xl font-display font-bold text-emerald-300">{vsTeamStats.AST?.toFixed(1) ?? '0.0'}</p>
+                          <p className="text-sm text-slate-400 mt-2 font-medium">Assists (AST)</p>
                         </div>
                       </div>
                     </div>
 
                     {/* Combo Stats */}
                     <div>
-                      <h4 className="text-sm font-semibold text-muted-foreground mb-3">COMBOS PARIS SPORTIFS</h4>
+                      <h4 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-3">COMBOS PARIS SPORTIFS</h4>
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <div className="text-center bg-gradient-to-br from-primary/20 to-primary/5 p-6 rounded-lg border border-primary/20">
-                          <p className="text-3xl font-display font-bold text-primary">{vsTeamStats.PRA?.toFixed(1) ?? '0.0'}</p>
-                          <p className="text-sm text-muted-foreground mt-2 font-medium">PTS+REB+AST</p>
+                        <div className="text-center bg-gradient-to-br from-purple-500/20 to-purple-500/5 p-6 rounded-lg border border-purple-500/30">
+                          <p className="text-3xl font-display font-bold text-purple-300">{vsTeamStats.PRA?.toFixed(1) ?? '0.0'}</p>
+                          <p className="text-sm text-slate-400 mt-2 font-medium">PTS+REB+AST</p>
                         </div>
-                        <div className="text-center bg-gradient-to-br from-accent/20 to-accent/5 p-6 rounded-lg border border-accent/20">
-                          <p className="text-3xl font-display font-bold text-accent">{vsTeamStats.PA?.toFixed(1) ?? '0.0'}</p>
-                          <p className="text-sm text-muted-foreground mt-2 font-medium">PTS+AST</p>
+                        <div className="text-center bg-gradient-to-br from-pink-500/20 to-pink-500/5 p-6 rounded-lg border border-pink-500/30">
+                          <p className="text-3xl font-display font-bold text-pink-300">{vsTeamStats.PA?.toFixed(1) ?? '0.0'}</p>
+                          <p className="text-sm text-slate-400 mt-2 font-medium">PTS+AST</p>
                         </div>
-                        <div className="text-center bg-gradient-to-br from-nba-blue/20 to-nba-blue/5 p-6 rounded-lg border border-nba-blue/20">
-                          <p className="text-3xl font-display font-bold text-nba-blue">{vsTeamStats.PR?.toFixed(1) ?? '0.0'}</p>
-                          <p className="text-sm text-muted-foreground mt-2 font-medium">PTS+REB</p>
+                        <div className="text-center bg-gradient-to-br from-indigo-500/20 to-indigo-500/5 p-6 rounded-lg border border-indigo-500/30">
+                          <p className="text-3xl font-display font-bold text-indigo-300">{vsTeamStats.PR?.toFixed(1) ?? '0.0'}</p>
+                          <p className="text-sm text-slate-400 mt-2 font-medium">PTS+REB</p>
                         </div>
                          {/* AR: AST + REB */}
-                        <div className="text-center bg-secondary/50 p-6 rounded-lg border border-border">
-                          <p className="text-3xl font-display font-bold text-foreground">{vsTeamStats.AR?.toFixed(1) ?? '0.0'}</p>
-                          <p className="text-sm text-muted-foreground mt-2 font-medium">AST+REB</p>
+                        <div className="text-center bg-slate-700/50 p-6 rounded-lg border border-slate-600/50">
+                          <p className="text-3xl font-display font-bold text-slate-200">{vsTeamStats.AR?.toFixed(1) ?? '0.0'}</p>
+                          <p className="text-sm text-slate-400 mt-2 font-medium">AST+REB</p>
                         </div>
                       </div>
                     </div>
                   </div>
                 ) : (
                   <div className="flex flex-col items-center justify-center py-12">
-                    <p className="text-muted-foreground text-center">Aucune donnée trouvée contre l'équipe {searchedTeam}.</p>
+                    <p className="text-slate-400 text-center">Aucune donnée trouvée contre l'équipe {searchedTeam}.</p>
                   </div>
                 )
               ) : searchedTeam ? (
                 // Cas d'attente ou erreur silencieuse
                 <div className="flex flex-col items-center justify-center py-12">
-                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mb-3"></div>
-                   <p className="text-muted-foreground text-center">Recherche en cours...</p>
+                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-400 mb-3"></div>
+                   <p className="text-slate-400 text-center">Recherche en cours...</p>
                 </div>
               ) : (
                 <div className="flex flex-col items-center justify-center py-12">
-                  <p className="text-muted-foreground text-center">Entrez un code d'équipe (ex: LAL, GSW) pour rechercher</p>
+                  <p className="text-slate-400 text-center">Entrez un code d'équipe (ex: LAL, GSW) pour rechercher</p>
                 </div>
               )}
             </CardContent>
